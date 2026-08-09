@@ -224,6 +224,111 @@ function performCapture(r,c,movingSide){
   return {victims, kingCaptured};
 }
 
+
+/*
+=========================================
+មុខងារ "ព័ទ្ធ" — ច្បាប់តាមការបញ្ជាក់របស់អ្នក
+=========================================
+
+- កូនដែលជាប់គ្នាតាម ៤ ទិស (លើ/ក្រោម/ឆ្វេង/ស្តាំ)
+  ត្រូវចាត់ទុកជា "ក្រុម" តែមួយ។
+- កូនខ្លួនឯងដែលជាប់គ្នា មិនមែនជាប្រឡោះទេ
+  ប៉ុន្តែវាជាផ្នែកនៃក្រុម។
+- ប្រឡោះ (liberty) គឺ "ក្រឡាទំនេរ" ដែលនៅជាប់ក្រុមតាម ៤ ទិស។
+- បើក្រុមមានប្រឡោះទំនេរ >= 1 -> ក្រុមទាំងមូលរស់។
+- បើក្រុមគ្មានប្រឡោះទំនេរសោះ -> ក្រុមទាំងមូលស្លាប់។
+- ក្រឡាក្រៅក្តារ មិនរាប់ជាប្រឡោះ។
+- កូននៅជ្រុងអាចរស់បាន ប្រសិនបើនៅសល់ក្រឡាទំនេរខាងក្នុង។
+- បើក្រុមដែលត្រូវព័ទ្ធមានស្តេច -> ភាគីនោះចាញ់។
+*/
+function getGroup(sr,sc){
+  const p=board[sr][sc];
+  if(!p)return {cells:[],liberties:[],hasKing:false};
+
+  const side=p.side;
+  const cells=[];
+  const liberties=[];
+  const seen=new Set();
+  const q=[[sr,sc]];
+  seen.add(`${sr},${sc}`);
+
+  while(q.length){
+    const [r,c]=q.shift();
+    cells.push([r,c]);
+
+    for(const [dr,dc] of DIRS){
+      const nr=r+dr,nc=c+dc;
+      if(!inside(nr,nc)) continue;
+
+      const np=board[nr][nc];
+      if(!np){
+        const key=`${nr},${nc}`;
+        if(!liberties.some(([lr,lc])=>lr===nr&&lc===nc)){
+          liberties.push([nr,nc]);
+        }
+      }else if(np.side===side){
+        const key=`${nr},${nc}`;
+        if(!seen.has(key)){
+          seen.add(key);
+          q.push([nr,nc]);
+        }
+      }
+    }
+  }
+
+  return {
+    cells,
+    liberties,
+    hasKing: cells.some(([r,c])=>board[r][c]?.king)
+  };
+}
+
+/*
+ពិនិត្យតែ "ក្រុមរបស់ភាគីដែលទើបត្រូវប៉ះពាល់"
+បន្ទាប់ពីចលនារួច។
+ដូច្នេះមិនសម្លាប់កូនផ្សេងៗដោយចៃដន្យទេ។
+*/
+function applySurroundAfterMove(r,c,movingSide){
+  const enemy=movingSide===W?B:W;
+  const checked=new Set();
+  const deadGroups=[];
+  let kingCaptured=false;
+
+  // ពិនិត្យក្រុមសត្រូវដែលនៅជាប់ក្រឡាដែលទើបដើរចូល
+  for(const [dr,dc] of DIRS){
+    const nr=r+dr,nc=c+dc;
+    if(!inside(nr,nc)) continue;
+
+    const np=board[nr][nc];
+    if(!np || np.side!==enemy) continue;
+
+    const key=`${nr},${nc}`;
+    if(checked.has(key)) continue;
+
+    const group=getGroup(nr,nc);
+    for(const cell of group.cells){
+      checked.add(`${cell[0]},${cell[1]}`);
+    }
+
+    if(group.liberties.length===0){
+      deadGroups.push(group);
+      if(group.hasKing) kingCaptured=true;
+    }
+  }
+
+  let removed=0;
+  for(const group of deadGroups){
+    for(const [gr,gc] of group.cells){
+      if(board[gr][gc]){
+        board[gr][gc]=null;
+        removed++;
+      }
+    }
+  }
+
+  return {removed,kingCaptured,deadGroups};
+}
+
 function clickNormal(r,c){
   const p=board[r][c];
 
@@ -239,18 +344,27 @@ function clickNormal(r,c){
       board[sr][sc]=null;
       selected=null;
 
-      // រែកត្រូវពិនិត្យ "តែទីតាំងថ្មី" នេះ
+      // រែកពិនិត្យ "តែទីតាំងថ្មី" នេះ
       const cap=performCapture(r,c,moved.side);
 
-      if(cap.kingCaptured){
+      // បន្ទាប់ពីរែករួច ទើបពិនិត្យ "ព័ទ្ធ" ជាក្រុម
+      const surround=applySurroundAfterMove(r,c,moved.side);
+
+      if(cap.kingCaptured || surround.kingCaptured){
         gameOver=true;
-        message(`${sideName(moved.side)} ឈ្នះ! ស្តេចគូប្រកួតត្រូវបានរែក។`);
+        message(`${sideName(moved.side)} ឈ្នះ! ស្តេចគូប្រកួតត្រូវបានរែក/ព័ទ្ធ។`);
+      }else if(cap.victims.length===2 && surround.removed>0){
+        turn=turn===W?B:W;
+        message(`រែកបាន ២ កូន ហើយព័ទ្ធបាន ${kh(surround.removed)} កូន។ ឥឡូវ ${sideName(turn)} ដើរ។`);
       }else if(cap.victims.length===2){
         turn=turn===W?B:W;
         message(`រែកបាន ២ កូន។ ឥឡូវ ${sideName(turn)} ដើរ។`);
+      }else if(surround.removed>0){
+        turn=turn===W?B:W;
+        message(`ព័ទ្ធបាន ${kh(surround.removed)} កូន។ ឥឡូវ ${sideName(turn)} ដើរ។`);
       }else{
         turn=turn===W?B:W;
-        message(`មិនមានរែក។ ឥឡូវ ${sideName(turn)} ដើរ។`);
+        message(`មិនមានរែក ឬព័ទ្ធ។ ឥឡូវ ${sideName(turn)} ដើរ។`);
       }
 
       render();
