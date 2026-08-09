@@ -38,6 +38,11 @@ function reset(){
 }
 
 function sideName(s){return s===W?"ភាគីស":"ភាគីខ្មៅ"}
+
+// ស្តេច និងកូនទ័ពមានសិទ្ធិដើរដូចគ្នា បន្ទាប់ពីការចេញដំបូង
+function canMoveNormally(p){
+  return !!p && (p.side===W || p.side===B);
+}
 function inside(r,c){return r>=0&&r<8&&c>=0&&c<8}
 function count(s){
   let n=0;
@@ -374,9 +379,11 @@ function clickNormal(r,c){
     selected=null;
   }
 
-  if(p&&p.side===turn){
+  if(canMoveNormally(p) && p.side===turn){
     selected=[r,c];
-    message(`បានជ្រើស ${p.king?"ស្តេច":"កូនទ័ព"}។ ជ្រើសក្រឡាដើម្បីដើរ។`);
+    message(p.king
+      ? "បានជ្រើសស្តេច។ ស្តេចអាចដើរ រែក និងព័ទ្ធដូចកូនទ័ព។"
+      : "បានជ្រើសកូនទ័ព។ ជ្រើសក្រឡាដើម្បីដើរ។");
   }else{
     message("សូមជ្រើសកូនរបស់ភាគីដែលមានវេន។");
   }
