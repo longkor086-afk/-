@@ -55,8 +55,13 @@ function validOpeningPair(a,b){
 
 function openingClick(r,c){
   const p=board[r][c];
+  const front=openingFrontRow(turn);
   if(!p||p.side!==turn){
     message("សូមជ្រើសរើសកូនរបស់ភាគីដែលកំពុងមានវេន។");
+    return;
+  }
+  if(r!==front || p.king){
+    message("នៅដំណាក់កាលដំបូង ត្រូវជ្រើសកូនទ័ពនៅជួរមុខ។");
     return;
   }
 
@@ -85,24 +90,56 @@ function openingClick(r,c){
   render();
 }
 
+function openingFrontRow(side){
+  return side===B ? 2 : 5; // ខ្មៅជួរមុខ row 3, សជួរមុខ row 6 (រាប់ពី 0)
+}
+
+function openingDirection(side){
+  return side===B ? 1 : -1; // ខ្មៅចុះក្រោម, សឡើងលើ
+}
+
 function confirmOpening(){
   if(selectedOpening.length!==2)return;
 
+  const front=openingFrontRow(turn);
+  const dir=openingDirection(turn);
+
+  // កូន ២ ត្រូវជាកូនទ័ពនៅជួរមុខ ហើយនៅរំលងគ្នា ១ ក្រឡា
   for(const [r,c] of selectedOpening){
-    if(!board[r][c] || board[r][c].side!==turn)return;
-    board[r][c].opened=true;
+    const p=board[r][c];
+    if(r!==front || !p || p.side!==turn || p.king){
+      message("ការចេញដំបូងត្រូវជ្រើសកូនទ័ព ២ នៅជួរមុខ។");
+      return;
+    }
   }
 
+  const destinations=selectedOpening.map(([r,c])=>[r+dir,c]);
+
+  // គោលដៅទាំង ២ ត្រូវទំនេរ
+  if(destinations.some(([r,c])=>!inside(r,c)||board[r][c])){
+    message("ក្រឡាខាងមុខមិនទំនេរ។ សូមជ្រើសគូកូនផ្សេង។");
+    return;
+  }
+
+  // ផ្លាស់ទីកូនទាំង ២ ជាមួយគ្នា ក្នុងសកម្មភាពតែមួយ
+  const pieces=selectedOpening.map(([r,c])=>board[r][c]);
+  for(const [r,c] of selectedOpening) board[r][c]=null;
+  destinations.forEach(([r,c],i)=>{
+    board[r][c]=pieces[i];
+    board[r][c].opened=true;
+  });
+
   selectedOpening=[];
+
   if(!board.openingDone){
     board.openingDone=true;
     turn=turn===W?B:W;
-    message(`ភាគីទីមួយបានចេញ ២ កូន។ ឥឡូវ ${sideName(turn)} ជ្រើសកូន ២។`);
+    message(`ភាគីទីមួយបានចេញកូន ២ ជាមួយគ្នា។ ឥឡូវ ${sideName(turn)} ជ្រើសកូន ២ នៅជួរមុខ។`);
   }else{
     phase="normal";
-    // បន្ទាប់ពីភាគីទីពីរចេញ ២ កូន វេនត្រឡប់ទៅភាគីទីមួយ
+    // បន្ទាប់ពីភាគីទីពីរចេញកូន ២ រួច វេនត្រឡប់ទៅភាគីទីមួយ
     turn=turn===W?B:W;
-    message(`ភាគីទាំងពីរបានចេញ ២ កូនរួច។ ឥឡូវលេងធម្មតា មួយកូនម្តង។`);
+    message(`ភាគីទាំងពីរបានចេញកូន ២ រួច។ ឥឡូវលេងធម្មតា មួយកូនម្តង។`);
   }
   render();
 }
