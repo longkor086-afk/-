@@ -8,6 +8,7 @@ const W="white", B="black";
 const DIRS=[[1,0],[-1,0],[0,1],[0,-1]];
 
 let board, turn, phase, selectedOpening=[], selected=null, gameOver=false;
+let callTrap=null; // {side, r, c, captureMoves:[{from:[r,c],to:[r,c]}...]}
 
 function initialBoard(){
   const a=Array.from({length:8},()=>Array(8).fill(null));
@@ -32,6 +33,7 @@ function reset(){
   selectedOpening=[];
   selected=null;
   gameOver=false;
+  callTrap=null;
   board.openingDone=false;
   render();
   message(`ដំណាក់កាលដំបូង៖ ${sideName(turn)} ជ្រើសកូន ២ ក្នុងពេលតែមួយ។`);
@@ -334,7 +336,116 @@ function applySurroundAfterMove(r,c,movingSide){
   return {removed,kingCaptured,deadGroups};
 }
 
+
+/*
+=========================================
+«ហៅរែក» — អន្ទាក់លះបង់កងទ័ព
+=========================================
+ការហៅរែកត្រូវកើតដោយស្វ័យប្រវត្តិ បន្ទាប់ពីអ្នកលេងដើរ
+កងទ័ពរបស់ខ្លួន ហើយចលនានោះបង្កើតឱកាសឱ្យគូប្រកួត
+រែកកងទ័ពដែលទើបដើរ។
+
+គូប្រកួតអាចជ្រើសកូនណាមួយក្នុងចំណោមកូន ២ ឬច្រើន
+ដែលអាចរែកបាន។ បើគ្មានចលនាណាអាចរែកកងទ័ពដែល
+ត្រូវបានហៅ -> មិនចាត់ទុកជាហៅរែក ហ្គេមបន្តធម្មតា។
+
+ចំណាំ៖ ការហៅរែកត្រូវប្រើ "កូនទ័ព" មិនមែនស្តេច
+ដើម្បីស្របនឹងគំនិតលះបង់កងទ័ព។
+*/
+
+// រកចលនារបស់គូប្រកួតដែលអាច "រែក" កូនដែលត្រូវហៅ
+function getCallCaptureMoves(targetR,targetC,enemySide){
+  const moves=[];
+  const target=board[targetR][targetC];
+  if(!target || target.side===enemySide || target.king) return moves;
+
+  // បើ target នៅជាប់ក្នុងប្រឡោះដែលមាន enemy pieces
+  // ការរែកត្រូវកើតនៅក្រឡាដែល enemy ទើបដើរចូល។
+  for(let r=0;r<8;r++){
+    for(let c=0;c<8;c++){
+      const p=board[r][c];
+      if(!p || p.side!==enemySide) continue;
+
+      for(const [tr,tc] of normalMoves(r,c)){
+        // សាកចលនា p -> (tr,tc) ជាបណ្តោះអាសន្ន
+        board[tr][tc]=p;
+        board[r][c]=null;
+
+        const cap=captureAt(tr,tc,enemySide);
+        const hitsTarget=cap.some(([vr,vc])=>vr===targetR&&vc===targetC);
+
+        board[r][c]=p;
+        board[tr][tc]=null;
+
+        if(hitsTarget){
+          moves.push({from:[r,c],to:[tr,tc]});
+        }
+      }
+    }
+  }
+  return moves;
+}
+
+// ស្វែងរកការហៅរែកបន្ទាប់ពីកូនទ័ពរបស់អ្នកដើររួច
+function detectCallTrap(r,c,movedSide){
+  const p=board[r][c];
+  if(!p || p.side!==movedSide || p.king) return null;
+
+  const enemy=movedSide===W?B:W;
+  const captures=getCallCaptureMoves(r,c,enemy);
+
+  if(captures.length===0) return null;
+
+  return {side:movedSide,r,c,captureMoves:captures};
+}
+
+// អនុវត្តចលនារែកដែលគូប្រកួតជ្រើសក្នុងហៅរែក
+function executeCallCapture(move){
+  const [fr,fc]=move.from;
+  const [tr,tc]=move.to;
+  const p=board[fr][fc];
+  if(!p) return false;
+
+  board[tr][tc]=p;
+  board[fr][fc]=null;
+
+  const cap=performCapture(tr,tc,p.side);
+
+  // បើ target/sacrifice ត្រូវបានរែក វានឹងស្ថិតក្នុង cap.victims
+  return {cap,moved:p};
+}
+
 function clickNormal(r,c){
+  if(gameOver)return;
+
+  // =====================================
+  // កំពុងបំពេញ "ហៅរែក" — គូប្រកួតត្រូវជ្រើស
+  // =====================================
+  if(callTrap){
+    const chosen=callTrap.captureMoves.find(m=>m.to[0]===r&&m.to[1]===c);
+    if(chosen){
+      const result=executeCallCapture(chosen);
+      const captured=result.cap;
+
+      callTrap=null;
+      selected=null;
+
+      if(captured.kingCaptured){
+        gameOver=true;
+        message(`${sideName(result.moved.side)} ឈ្នះ! ស្តេចគូប្រកួតត្រូវបានរែក។`);
+      }else{
+        // បន្ទាប់ពីគេរែកហើយ វេនត្រឡប់ទៅអ្នកដែលបានហៅរែក
+        turn=turn===W?B:W;
+        message(`បានឆ្លើយតបការហៅរែក។ រែកបាន ${kh(captured.victims.length)} កូន។ វេន ${sideName(turn)}។`);
+      }
+      render();
+      return;
+    }
+
+    message("ត្រូវជ្រើសចលនាដែលអាចមករែកកូនដែលត្រូវបានហៅ។");
+    return;
+  }
+
   const p=board[r][c];
 
   if(selected){
@@ -349,27 +460,48 @@ function clickNormal(r,c){
       board[sr][sc]=null;
       selected=null;
 
-      // រែកពិនិត្យ "តែទីតាំងថ្មី" នេះ
+      // រែកធម្មតានៅទីតាំងថ្មី
       const cap=performCapture(r,c,moved.side);
 
-      // បន្ទាប់ពីរែករួច ទើបពិនិត្យ "ព័ទ្ធ" ជាក្រុម
+      if(cap.kingCaptured){
+        gameOver=true;
+        message(`${sideName(moved.side)} ឈ្នះ! ស្តេចគូប្រកួតត្រូវបានរែក។`);
+        render();
+        return;
+      }
+
+      // ព័ទ្ធក្រុមសត្រូវ
       const surround=applySurroundAfterMove(r,c,moved.side);
 
-      if(cap.kingCaptured || surround.kingCaptured){
+      if(surround.kingCaptured){
         gameOver=true;
-        message(`${sideName(moved.side)} ឈ្នះ! ស្តេចគូប្រកួតត្រូវបានរែក/ព័ទ្ធ។`);
-      }else if(cap.victims.length===2 && surround.removed>0){
+        message(`${sideName(moved.side)} ឈ្នះ! ស្តេចគូប្រកួតត្រូវបានព័ទ្ធ។`);
+        render();
+        return;
+      }
+
+      /*
+      បន្ទាប់ពីចលនាធម្មតា សាករក "ហៅរែក"។
+      មានតែការលះបង់កូនទ័ពប៉ុណ្ណោះ។
+      បើមានកូនគូប្រកួត ២ ឬច្រើនដែលអាចចូលមករែក
+      -> បង្ខំឱ្យគេជ្រើសមួយ។
+      */
+      const call=detectCallTrap(r,c,moved.side);
+
+      if(call){
+        callTrap=call;
         turn=turn===W?B:W;
-        message(`រែកបាន ២ កូន ហើយព័ទ្ធបាន ${kh(surround.removed)} កូន។ ឥឡូវ ${sideName(turn)} ដើរ។`);
-      }else if(cap.victims.length===2){
-        turn=turn===W?B:W;
-        message(`រែកបាន ២ កូន។ ឥឡូវ ${sideName(turn)} ដើរ។`);
-      }else if(surround.removed>0){
-        turn=turn===W?B:W;
-        message(`ព័ទ្ធបាន ${kh(surround.removed)} កូន។ ឥឡូវ ${sideName(turn)} ដើរ។`);
+        message(`🪤 ហៅរែក! ${sideName(turn)} មានចលនា ${kh(call.captureMoves.length)} ជម្រើសសម្រាប់មករែក។ សូមជ្រើសកូនមួយ។`);
       }else{
         turn=turn===W?B:W;
-        message(`មិនមានរែក ឬព័ទ្ធ។ ឥឡូវ ${sideName(turn)} ដើរ។`);
+        if(cap.victims.length===2 && surround.removed>0)
+          message(`រែកបាន ២ កូន និងព័ទ្ធបាន ${kh(surround.removed)} កូន។ វេន ${sideName(turn)}។`);
+        else if(cap.victims.length===2)
+          message(`រែកបាន ២ កូន។ វេន ${sideName(turn)}។`);
+        else if(surround.removed>0)
+          message(`ព័ទ្ធបាន ${kh(surround.removed)} កូន។ វេន ${sideName(turn)}។`);
+        else
+          message(`មិនមានរែក ឬព័ទ្ធ។ វេន ${sideName(turn)}។`);
       }
 
       render();
@@ -389,7 +521,6 @@ function clickNormal(r,c){
   }
   render();
 }
-
 function clickCell(r,c){
   if(gameOver)return;
   if(phase==="opening")openingClick(r,c);
@@ -408,6 +539,9 @@ function render(){
     if(phase==="opening"){
       if(selectedOpening.some(([a,b])=>a===r&&b===c))
         cell.classList.add("opening-choice");
+    }else if(callTrap){
+      if(callTrap.captureMoves.some(m=>m.to[0]===r&&m.to[1]===c))
+        cell.classList.add("move-choice");
     }else if(selected){
       if(normalMoves(...selected).some(([a,b])=>a===r&&b===c))
         cell.classList.add("move-choice");
@@ -441,7 +575,9 @@ function render(){
   bc.textContent=kh(count(B));
   wc.textContent=kh(count(W));
   turnEl.textContent=gameOver?"ចប់ការប្រកួត":
-    `វេន៖ ${sideName(turn)}${phase==="opening"?" · ជ្រើសកូន ២":""}`;
+    callTrap
+      ? `🪤 ហៅរែក៖ ${sideName(turn)} ត្រូវជ្រើសចលនារែក`
+      : `វេន៖ ${sideName(turn)}${phase==="opening"?" · ជ្រើសកូន ២":""}`;
 }
 
 function message(t){msgEl.textContent=t}
