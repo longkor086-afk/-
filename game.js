@@ -1,191 +1,135 @@
-const boardEl = document.getElementById("board");
-const turnText = document.getElementById("turnText");
-const message = document.getElementById("message");
-const blackCount = document.getElementById("blackCount");
-const whiteCount = document.getElementById("whiteCount");
-const newGame = document.getElementById("newGame");
+const boardEl=document.getElementById("board");
+const turnText=document.getElementById("turnText");
+const message=document.getElementById("message");
+const blackCount=document.getElementById("blackCount");
+const whiteCount=document.getElementById("whiteCount");
+document.getElementById("newGame").onclick=reset;
 
-const B = "black", W = "white";
+const W="white",B="black";
+let board,turn,selected=null,gameOver=false;
 
-let board, turn, selected, gameOver;
-// ដំណាក់កាលដំបូង៖ ភាគីនីមួយៗត្រូវដើរ ២ កូនមុន
-let openingMoves = {black: 0, white: 0};
-let openingPhase = true;
-
+/*
+ច្បាប់សំខាន់របស់ "រែក":
+- រែកកើតឡើងតែពេល "កូនដែលទើបដើចូល" ស្ថិតនៅក្នុងប្រឡោះ
+  ហើយមានកូនគូប្រកួត 2 នៅជាប់ខាងទាំងពីរ។
+- មាន 4 ទិស: ឆ្វេង+ស្តាំ និង លើ+ក្រោម។
+- សម្លាប់តែ 2 កូនដែលនៅសងខាងប៉ុណ្ណោះ។
+- មិនសម្លាប់កូនផ្សេងទៀតដែលនៅជិត។
+- បើគ្រាន់តែមានកូនគូប្រកួតនៅម្ខាង មិនរែកទេ។
+*/
 function initialBoard(){
-  const b = Array.from({length:8},()=>Array(8).fill(null));
-  for(let c=0;c<8;c++) b[0][c]={side:B,king:false};
-  for(let c=0;c<8;c++) b[2][c]={side:B,king:false};
-  b[1][0]={side:B,king:true};
-  for(let c=0;c<8;c++) b[5][c]={side:W,king:false};
-  for(let c=0;c<7;c++) b[7][c]={side:W,king:false};
-  b[6][7]={side:W,king:true};
-  return b;
+  const x=Array.from({length:8},()=>Array(8).fill(null));
+  // ការរៀបចំដើមតាមគំរូ 16 កូនមួយភាគី
+  for(let c=0;c<8;c++)x[0][c]={side:B,king:false};
+  for(let c=0;c<8;c++)x[2][c]={side:B,king:false};
+  x[1][0]={side:B,king:true};
+
+  for(let c=0;c<8;c++)x[5][c]={side:W,king:false};
+  for(let c=0;c<7;c++)x[7][c]={side:W,king:false};
+  x[6][7]={side:W,king:true};
+  return x;
 }
 
 function reset(){
   board=initialBoard();
-  turn=Math.random()<.5?B:W;
-  selected=null; gameOver=false;
-  openingMoves={black:0,white:0};
-  openingPhase=true;
+  turn=Math.random()<.5?W:B;
+  selected=null;gameOver=false;
   render();
-  setMessage(`ចាប់ផ្ដើមដោយចៃដន្យ៖ ${turn===W?"ភាគីស":"ភាគីខ្មៅ"} ដើរមុន។ ដំណាក់កាលដំបូងត្រូវដើរ ២ កូនម្នាក់ៗ។`);
+  setMsg(`អ្នកចាប់ផ្ដើមគឺ ${turn===W?"ភាគីស":"ភាគីខ្មៅ"}។ ដំបូងត្រូវចេញកូន ២ ដើម្បីបង្កើតការរែកគ្នា។`);
 }
-newGame.onclick=reset;
 
-function inBoard(r,c){return r>=0&&r<8&&c>=0&&c<8}
-function directions(){return [[1,0],[-1,0],[0,1],[0,-1]]}
+function inside(r,c){return r>=0&&r<8&&c>=0&&c<8}
+const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
 
-function getMoves(r,c){
-  const p=board[r][c]; if(!p) return [];
-  const moves=[];
-  for(const [dr,dc] of directions()){
+function moves(r,c){
+  const p=board[r][c];if(!p)return[];
+  const out=[];
+  for(const [dr,dc] of dirs){
     let nr=r+dr,nc=c+dc;
-    while(inBoard(nr,nc)){
-      if(board[nr][nc]) break;
-      moves.push([nr,nc]);
+    while(inside(nr,nc)){
+      if(board[nr][nc])break;
+      out.push([nr,nc]);
       nr+=dr;nc+=dc;
     }
   }
-  return moves;
+  return out;
 }
 
-/*
-  រែក៖ កូនដែលមានគូប្រកួតនៅខាងទល់មុខតាមជួរដេក ឬជួរឈរ
-  អាចត្រូវរែកនៅពេលក្រឡាខាងទាំងពីរត្រូវបានបិទ។
-  Logic នេះពិនិត្យទាំង ៤ ទិស ដូច្នេះរែកបានទាំងជួរដេក និងជួរឈរ។
-*/
-function captureByLine(r,c){
-  const p=board[r][c];
-  if(!p) return [];
-  const enemy=p.side===W?B:W;
+/* ពិនិត្យតែទីតាំងដែល "ទើបដើរចូល" */
+function captureAt(r,c,side){
+  const enemy=side===W?B:W;
   const captured=[];
-
-  // ពិនិត្យគូជាប់គ្នាទាំងផ្ដេក និងបញ្ឈរ
-  for(const [dr,dc] of directions()){
-    const r1=r+dr,c1=c+dc;
-    const r2=r-dr,c2=c-dc;
-    if(inBoard(r1,c1)&&inBoard(r2,c2)
-       && board[r1][c1]?.side===enemy
-       && board[r2][c2]?.side===enemy){
-      captured.push([r1,c1],[r2,c2]);
-    }
+  // ផ្ដេក: enemy [r,c-1] + enemy [r,c+1]
+  if(inside(r,c-1)&&inside(r,c+1)
+     &&board[r][c-1]?.side===enemy
+     &&board[r][c+1]?.side===enemy){
+    captured.push([r,c-1],[r,c+1]);
+  }
+  // បញ្ឈរ: enemy [r-1,c] + enemy [r+1,c]
+  if(inside(r-1,c)&&inside(r+1,c)
+     &&board[r-1][c]?.side===enemy
+     &&board[r+1][c]?.side===enemy){
+    captured.push([r-1,c],[r+1,c]);
   }
   return captured;
 }
 
-function surrounded(r,c){
-  const p=board[r][c]; if(!p) return false;
-  // បើនៅសល់ប្រឡោះទំនេរមួយ ឬច្រើន កូននៅរស់
-  for(const [dr,dc] of directions()){
-    const nr=r+dr,nc=c+dc;
-    if(inBoard(nr,nc) && !board[nr][nc]) return false;
-  }
-  return true;
-}
-
-function removeSurrounded(){
-  const dead=[];
-  for(let r=0;r<8;r++) for(let c=0;c<8;c++){
-    const p=board[r][c];
-    if(p && !p.king && surrounded(r,c)) dead.push([r,c]);
-  }
-  for(const [r,c] of dead) board[r][c]=null;
-}
-
-function applyCaptures(){
-  const dead = new Set();
-  for(let r=0;r<8;r++) for(let c=0;c<8;c++){
-    const p=board[r][c];
-    if(!p) continue;
-    for(const [rr,cc] of captureByLine(r,c)){
-      if(board[rr][cc] && !board[rr][cc].king){
-        dead.add(`${rr},${cc}`);
-      }
+function doCapture(r,c,side){
+  const victim=captureAt(r,c,side);
+  // ដកតែ 2 កូនដែលត្រូវបានរែក
+  for(const [rr,cc] of victim){
+    if(board[rr][cc] && board[rr][cc].side!==side && !board[rr][cc].king){
+      board[rr][cc]=null;
     }
   }
-  for(const key of dead){
-    const [r,c]=key.split(",").map(Number);
-    board[r][c]=null;
-  }
-  return dead.size;
-}
-
-function countSide(side){
-  let n=0;
-  for(let r=0;r<8;r++) for(let c=0;c<8;c++)
-    if(board[r][c]?.side===side)n++;
-  return n;
+  return victim.length;
 }
 
 function kingExists(side){
   for(let r=0;r<8;r++)for(let c=0;c<8;c++)
-    if(board[r][c]?.side===side && board[r][c]?.king)return true;
+    if(board[r][c]?.side===side&&board[r][c]?.king)return true;
   return false;
 }
-
-function nextTurn(){
-  turn=turn===W?B:W;
+function count(side){
+  let n=0;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(board[r][c]?.side===side)n++;
+  return n;
 }
 
-function finishOpeningIfNeeded(){
-  if(openingMoves.black>=2 && openingMoves.white>=2){
-    openingPhase=false;
-    return true;
-  }
-  return false;
-}
-
-function clickCell(r,c){
+function click(r,c){
   if(gameOver)return;
   const p=board[r][c];
 
   if(selected){
     const [sr,sc]=selected;
-    const legal=getMoves(sr,sc).some(([mr,mc])=>mr===r&&mc===c);
-    if(legal){
-      board[r][c]=board[sr][sc];
+    if(moves(sr,sc).some(([a,b])=>a===r&&b===c)){
+      const moved=board[sr][sc];
+      board[r][c]=moved;
       board[sr][sc]=null;
       selected=null;
 
-      // រាប់វេនដំណាក់កាលដំបូង
-      if(openingPhase) openingMoves[turn]++;
+      // សំខាន់៖ រែកត្រូវពិនិត្យនៅក្រឡាថ្មីដែលកូនទើបដើរចូលប៉ុណ្ណោះ
+      const n=doCapture(r,c,moved.side);
 
-      // រែកត្រូវពិនិត្យទាំងជួរដេក និងជួរឈរ
-      const captured=applyCaptures();
-
-      // បន្ទាប់ពីរែក ពិនិត្យការព័ទ្ធ
-      removeSurrounded();
-
-      if(!kingExists(B)||!kingExists(W)){
+      if(!kingExists(W)||!kingExists(B)){
         gameOver=true;
-        setMessage(!kingExists(B)?"ស្តេចខ្មៅចាញ់!":"ស្តេចសចាញ់!");
+        setMsg(!kingExists(W)?"ស្តេចសចាញ់!":"ស្តេចខ្មៅចាញ់!");
       }else{
-        const justFinished=finishOpeningIfNeeded();
-        nextTurn();
-
-        if(justFinished){
-          setMessage(`ដំណាក់កាលដំបូងចប់ហើយ។ ឥឡូវនេះដើរធម្មតា — វេន ${turn===W?"ភាគីស":"ភាគីខ្មៅ"}។`);
-        }else if(openingPhase){
-          setMessage(`ដំណាក់កាលដំបូង៖ ${turn===W?"ភាគីស":"ភាគីខ្មៅ"} ត្រូវដើរ។`);
-        }else if(captured>0){
-          setMessage(`បានរែកកូន ${captured}។ វេន ${turn===W?"ភាគីស":"ភាគីខ្មៅ"}។`);
-        }else{
-          setMessage(`វេន ${turn===W?"ភាគីស":"ភាគីខ្មៅ"} ដើរ។`);
-        }
+        turn=turn===W?B:W;
+        setMsg(n===2
+          ?`រែកបាន ២ កូន — ${turn===W?"ភាគីស":"ភាគីខ្មៅ"} ដើរបន្ត។`
+          :`មិនមានរែក — ${turn===W?"ភាគីស":"ភាគីខ្មៅ"} ដើរ។`);
       }
-      render(); return;
+      render();return;
     }
     selected=null;
   }
 
-  if(p && p.side===turn){
-    // ដំណាក់កាលដំបូង ក៏អនុញ្ញាតឱ្យជ្រើសស្តេច ប៉ុន្តែគោលបំណងគឺដាក់កូនចេញមុខ
+  if(p&&p.side===turn){
     selected=[r,c];
-    setMessage(`បានជ្រើសរើស${p.king?"ស្តេច":"កូនទ័ព"} — ជ្រើសរើសក្រឡាដើម្បីដើរ`);
+    setMsg(`បានជ្រើសរើស${p.king?"ស្តេច":"កូនទ័ព"}។ ជ្រើសរើសក្រឡាដើម្បីដើរ។`);
   }else{
-    setMessage("សូមជ្រើសរើសកូនរបស់ភាគីដែលកំពុងដើរ");
+    setMsg("សូមជ្រើសរើសកូនរបស់ភាគីដែលកំពុងមានវេន។");
   }
   render();
 }
@@ -193,29 +137,21 @@ function clickCell(r,c){
 function render(){
   boardEl.innerHTML="";
   for(let r=0;r<8;r++)for(let c=0;c<8;c++){
-    const cell=document.createElement("div");
-    cell.className="cell";
+    const cell=document.createElement("div");cell.className="cell";
     if(selected?.[0]===r&&selected?.[1]===c)cell.classList.add("selected");
-    if(selected && getMoves(...selected).some(([mr,mc])=>mr===r&&mc===c))cell.classList.add("can-move");
-    cell.onclick=()=>clickCell(r,c);
-
+    if(selected&&moves(...selected).some(([a,b])=>a===r&&b===c))cell.classList.add("canmove");
+    cell.onclick=()=>click(r,c);
     const p=board[r][c];
     if(p){
-      const piece=document.createElement("div");
-      piece.className=`piece ${p.side}${p.king?" king":""}`;
-      cell.appendChild(piece);
+      const el=document.createElement("div");
+      el.className=`piece ${p.side}${p.king?" king":""}`;
+      cell.appendChild(el);
     }
     boardEl.appendChild(cell);
   }
-
   const kh=n=>String(n).replace(/\d/g,d=>"០១២៣៤៥៦៧៨៩"[d]);
-  blackCount.textContent=kh(countSide(B));
-  whiteCount.textContent=kh(countSide(W));
-  turnText.textContent=gameOver?"ចប់ការប្រកួត":
-    openingPhase
-      ? `វេន៖ ${turn===W?"ភាគីស ⚪":"ភាគីខ្មៅ ⚫"} · ដំណាក់កាលដំបូង ${kh(openingMoves[turn])}/២`
-      : `វេន៖ ${turn===W?"ភាគីស ⚪":"ភាគីខ្មៅ ⚫"}`;
+  blackCount.textContent=kh(count(B));whiteCount.textContent=kh(count(W));
+  turnText.textContent=gameOver?"ចប់ការប្រកួត":`វេន៖ ${turn===W?"ភាគីស ⚪":"ភាគីខ្មៅ ⚫"}`;
 }
-
-function setMessage(t){message.textContent=t}
+function setMsg(t){message.textContent=t}
 reset();
