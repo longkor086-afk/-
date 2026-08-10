@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;600;700;800&display=swap');
+:root{--wood1:#f1d59d;--wood2:#c58b57;--line:#6f482d;--dark:#352117;--gold:#e8b84e}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(145deg,#f5ead2,#dcc39c);font-family:"Noto Sans Khmer",system-ui,sans-serif;color:var(--dark)}
+.app{width:min(760px,100%);margin:auto;padding:14px}
+header{text-align:center;padding:8px 0 10px}
+h1{margin:0;font-size:34px;font-weight:800}
+.subtitle{font-size:17px;opacity:.7}
+.topbar,.info{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.topbar{margin-bottom:8px}
+.topbar button{border:0;background:#573522;color:white;border-radius:12px;padding:9px 14px;font:inherit;font-weight:700}
+.info{background:#fff6e4;border:1px solid #cba879;border-radius:14px;padding:9px 12px;margin-bottom:10px}
+.board{width:min(94vw,680px);aspect-ratio:1;margin:auto;display:grid;grid-template-columns:repeat(8,1fr);border:7px solid #573522;border-radius:12px;overflow:hidden;box-shadow:0 10px 25px #5b3a2533}
+.cell{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1;border:1px solid #8e633f}
+.cell.light{background:var(--wood1)}
+.cell.dark{background:var(--wood2)}
+.cell.selected{box-shadow:inset 0 0 0 4px #2e86de}
+.cell.move::after{content:"";width:20%;height:20%;border-radius:50%;background:#2e86de88;position:absolute}
+.cell.capture::after{content:"";width:72%;height:72%;border-radius:50%;border:4px solid #e24b4b;position:absolute}
+.piece{width:76%;height:76%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,6vw,43px);font-weight:800;line-height:1;user-select:none;filter:drop-shadow(0 3px 2px #0005)}
+.whitePiece{background:radial-gradient(circle at 35% 28%,#fff,#d6d6d6);color:#4c2d1e;border:2px solid #aaa}
+.blackPiece{background:radial-gradient(circle at 35% 28%,#555,#111);color:#f5d38b;border:2px solid #333}
+.message{margin:12px 0;padding:12px 14px;background:#fff6e4;border:1px solid #cba879;border-radius:14px;text-align:center;min-height:48px}
+.special{background:#fff6e4;border:1px solid #cba879;border-radius:16px;padding:14px 16px;margin-top:12px}
+.special h2{margin:0 0 8px;font-size:20px}
+.special p{margin:8px 0;line-height:1.65}
+.check{animation:pulse 1s infinite}
+@keyframes pulse{50%{box-shadow:inset 0 0 0 4px #e24b4b}}
+@media(max-width:420px){h1{font-size:28px}.info{font-size:13px}.special{font-size:13px}}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="km">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>អុកខ្មែរ - ចត្រង្គ</title>
+<link rel="stylesheet" href="ouk.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>អុកខ្មែរ</h1>
+    <div class="subtitle">អុក ឬ ចត្រង្គ</div>
+  </header>
+
+  <section class="topbar">
+    <div id="turn">វេន៖ ស</div>
+    <button id="restart">លេងថ្មី</button>
+  </section>
+
+  <section class="info">
+    <div>⚪ ស <b id="whiteCount">១៦</b></div>
+    <div id="status">ស ចាប់ផ្តើម</div>
+    <div>⚫ ខ្មៅ <b id="blackCount">១៦</b></div>
+  </section>
+
+  <main id="board" class="board" aria-label="ក្តារអុកខ្មែរ"></main>
+
+  <div id="message" class="message">ជ្រើសកូនអុកមួយ ដើម្បីដើរ។</div>
+
+  <section class="special">
+    <h2>ច្បាប់ពិសេស</h2>
+    <p>👑 អង្គ៖ ដើរ ១ ក្រឡាគ្រប់ទិស។ ដំណើរដំបូងអាចលោតដូចសេះបាន ប៉ុន្តែមិនអាចស៊ី។ បើទូកគូប្រកួតចូលជួរដេក/ជួរឈរតម្រង់អង្គ សិទ្ធិលោតនេះបាត់ជាអចិន្ត្រៃយ៍។</p>
+    <p>👸 នាង៖ ដើរអង្កត់ទ្រូង ១ ក្រឡា។ ដំណើរដំបូងអាចលោតទៅមុខ ២ ក្រឡា ហើយមិនអាចស៊ី។</p>
+    <p>🐟 ត្រី៖ ដើរទៅមុខ ១ និងស៊ីអង្កត់ទ្រូងទៅមុខ ១។ មិនមានដើរ ២ ក្រឡា។ ដល់ជួរទី ៦ របស់ខ្លួន → ឡើងជា នាង។</p>
+  </section>
+</div>
+<script src="ouk.js"></script>
+</body>
+</html>
