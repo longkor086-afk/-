@@ -6,6 +6,7 @@ document.getElementById("restart").onclick=reset;
 
 const W="white", B="black";
 const DIRS=[[1,0],[-1,0],[0,1],[0,-1]];
+let gameMode="surround"; // surround = រែកព័ទ្ធ, normal = រែកធម្មត
 
 let board, turn, phase, selectedOpening=[], selected=null, gameOver=false;
 let callTrap=null; // active forced response
@@ -26,6 +27,30 @@ function initialBoard(){
   for(let c=0;c<7;c++) a[7][c]={side:W,king:false};
 
   return a;
+}
+
+function startGameMode(mode){
+  gameMode=mode;
+  const menu=document.getElementById("modeMenu");
+  const game=document.getElementById("gameArea");
+  if(menu)menu.style.display="none";
+  if(game)game.style.display="block";
+  if(document.getElementById("gameArea")?.style.display!=="block"){
+  // មិនចាប់ផ្តើមហ្គេមរហូតដល់អ្នកជ្រើសប្រភេទរែក
+}else{
+  reset();
+}
+  message(mode==="normal"
+    ? "រែកធម្មតា៖ ស្តេចមិនអាចដើរ។ កូនទ័ពអាចរែកស្តេចបាន។"
+    : "រែកព័ទ្ធ៖ ច្បាប់រែក និងព័ទ្ធដំណើរការ។");
+}
+
+function backToModes(){
+  const menu=document.getElementById("modeMenu");
+  const game=document.getElementById("gameArea");
+  if(game)game.style.display="none";
+  if(menu)menu.style.display="block";
+  gameOver=true;
 }
 
 function reset(){
@@ -56,6 +81,19 @@ function count(s){
   return n;
 }
 function kh(n){return String(n).replace(/\d/g,d=>"០១២៣៤៥៦៧៨៩"[d])}
+function troopCount(s){
+  let n=0;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const p=board[r][c];
+    if(p?.side===s && !p.king)n++;
+  }
+  return n;
+}
+
+function checkNormalLoss(side){
+  return gameMode==="normal" && troopCount(side)===0;
+}
+
 
 /* កូន ២ ត្រូវនៅចន្លោះគ្នា ១ ក្រឡា */
 function validOpeningPair(a,b){
@@ -157,6 +195,7 @@ function confirmOpening(){
 
 function normalMoves(r,c){
   const p=board[r][c];if(!p)return[];
+  if(gameMode==="normal" && p.king)return[];
   const out=[];
   for(const [dr,dc] of DIRS){
     let nr=r+dr,nc=c+dc;
@@ -479,8 +518,17 @@ function clickNormal(r,c){
         return;
       }
 
-      // ព័ទ្ធក្រុមសត្រូវ
-      const surround=applySurroundAfterMove(r,c,moved.side);
+      if(gameMode==="normal" && checkNormalLoss(moved.side===W?B:W)){
+        gameOver=true;
+        message(`${sideName(moved.side)} ឈ្នះ! កងទ័ពគូប្រកួតស្លាប់អស់។`);
+        render();
+        return;
+      }
+
+      // រែកធម្មតាមិនមានច្បាប់ព័ទ្ធ
+      const surround=gameMode==="surround"
+        ? applySurroundAfterMove(r,c,moved.side)
+        : {removed:0,kingCaptured:false};
 
       if(surround.kingCaptured){
         gameOver=true;
@@ -521,7 +569,9 @@ function clickNormal(r,c){
   if(canMoveNormally(p) && p.side===turn){
     selected=[r,c];
     message(p.king
-      ? "បានជ្រើសស្តេច។ ស្តេចអាចដើរ រែក និងព័ទ្ធដូចកូនទ័ព។"
+      ? (gameMode==="normal"
+          ? "ស្តេចមិនអាចដើរទេ ប៉ុន្តែស្តេចអាចប្រើយុទ្ធសាស្ត្រ «ហៅរែក»។"
+          : "បានជ្រើសស្តេច។ ស្តេចអាចដើរ រែក និងព័ទ្ធដូចកូនទ័ព។")
       : "បានជ្រើសកូនទ័ព។ ជ្រើសក្រឡាដើម្បីដើរ។");
   }else{
     message("សូមជ្រើសកូនរបស់ភាគីដែលមានវេន។");
@@ -657,3 +707,6 @@ function render(){
 
 function message(t){msgEl.textContent=t}
 reset();
+
+window.startGameMode=startGameMode;
+window.backToModes=backToModes;
