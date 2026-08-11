@@ -1,4 +1,5 @@
-const firebaseConfig = {
+// Firebase configuration
+window.firebaseConfig = {
   apiKey: "AIzaSyArfAGe6xTIV-Oe5PkVz5zo0kRJt8n9z4I",
   authDomain: "khmer-game-5944c.firebaseapp.com",
   projectId: "khmer-game-5944c",
