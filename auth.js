@@ -1,16 +1,73 @@
-let currentUser=null;
-function playerIdFromUid(uid){return "KH-"+String(uid||"").replace(/[^a-zA-Z0-9]/g,"").slice(0,8).toUpperCase().padEnd(8,"0");}
+let currentUser = null;
+
+function playerIdFromUid(uid){
+  return "KH-" + String(uid || "")
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .slice(0, 8)
+    .toUpperCase()
+    .padEnd(8, "0");
+}
+
 function setUser(user){
- currentUser=user||null;
- const n=document.getElementById("profileName"),i=document.getElementById("profileId"),a=document.getElementById("profileAvatar"),g=document.getElementById("profileGuest"),u=document.getElementById("profileUser"),e=document.getElementById("profileEmail");
- if(user){if(n)n.textContent=user.displayName||user.email?.split("@")[0]||"អ្នកលេង";if(i)i.textContent="ID: "+playerIdFromUid(user.uid);if(e)e.textContent=user.email||"";if(a)a.textContent="👤";if(g)g.style.display="none";if(u)u.style.display="block";}
- else{if(n)n.textContent="អ្នកលេង";if(i)i.textContent="មិនទាន់ចូលគណនី";if(e)e.textContent="";if(a)a.textContent="👤";if(g)g.style.display="block";if(u)u.style.display="none";}
+  currentUser = user || null;
+
+  const name = document.getElementById("profileName");
+  const id = document.getElementById("profileId");
+  const avatar = document.getElementById("profileAvatar");
+  const guest = document.getElementById("profileGuest");
+  const logged = document.getElementById("profileUser");
+  const email = document.getElementById("profileEmail");
+
+  if(user){
+    if(name) name.textContent = user.displayName || user.email?.split("@")[0] || "អ្នកលេង";
+    if(id) id.textContent = "ID: " + playerIdFromUid(user.uid);
+    if(email) email.textContent = user.email || "";
+    if(avatar) avatar.textContent = "👤";
+    if(guest) guest.style.display = "none";
+    if(logged) logged.style.display = "block";
+  }else{
+    if(name) name.textContent = "អ្នកលេង";
+    if(id) id.textContent = "មិនទាន់ចូលគណនី";
+    if(email) email.textContent = "";
+    if(avatar) avatar.textContent = "👤";
+    if(guest) guest.style.display = "block";
+    if(logged) logged.style.display = "none";
+  }
 }
+
 function initKhmerGameAuth(){
- if(!window.firebase||!window.firebaseConfig)return;
- if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
- const auth=firebase.auth();
- window.khmerGameAuth={auth,getUser:()=>currentUser,playerId:playerIdFromUid,setUser};
- auth.onAuthStateChanged(setUser);
+  if(!window.firebase){
+    console.error("Firebase SDK មិនបាន load");
+    return;
+  }
+
+  if(!window.firebaseConfig){
+    console.error("firebaseConfig មិនបាន load");
+    return;
+  }
+
+  try{
+    if(!firebase.apps.length){
+      firebase.initializeApp(window.firebaseConfig);
+    }
+
+    const auth = firebase.auth();
+
+    window.khmerGameAuth = {
+      auth: auth,
+      getUser: () => currentUser,
+      playerId: playerIdFromUid
+    };
+
+    auth.onAuthStateChanged(setUser);
+  }catch(error){
+    console.error("Firebase initialization error:", error);
+  }
 }
-window.addEventListener("load",initKhmerGameAuth);
+
+/* Run reliably whether this file loads before or after window load */
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", initKhmerGameAuth);
+}else{
+  initKhmerGameAuth();
+}

@@ -1,16 +1,37 @@
-<!doctype html><html lang="km"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>គណនី — ខ្មែរហ្គេម</title><link rel="stylesheet" href="account.css"></head><body>
-<main class="card"><div class="logo">♟</div><h1>គណនីអ្នកលេង</h1>
+<!doctype html>
+<html lang="km">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>គណនី — ខ្មែរហ្គេម</title>
+<link rel="stylesheet" href="account.css?v=2">
+</head>
+<body>
+<main class="card">
+<div class="logo">♟</div>
+<h1>គណនីអ្នកលេង</h1>
 <p class="sub">បង្កើតគណនី ដើម្បីរក្សាទុក Profile និងស្ថិតិការប្រកួត</p>
-<div class="tabs"><button class="active" onclick="mode('login',this)">ចូលគណនី</button><button onclick="mode('register',this)">បង្កើតគណនី</button></div>
+
+<div class="tabs">
+<button class="active" onclick="mode('login',this)">ចូលគណនី</button>
+<button onclick="mode('register',this)">បង្កើតគណនី</button>
+</div>
+
 <form id="authForm" onsubmit="submitAuth(event)">
 <input id="name" placeholder="ឈ្មោះអ្នកលេង" autocomplete="nickname">
 <input id="email" type="email" placeholder="អ៊ីមែល" required autocomplete="email">
 <input id="password" type="password" placeholder="ពាក្យសម្ងាត់" required autocomplete="current-password">
-<button class="primary" id="submit">ចូលគណនី</button></form>
-<button class="guest" onclick="guest()">លេងជាភ្ញៀវ</button><p id="msg"></p></main>
+<button class="primary" id="submit">ចូលគណនី</button>
+</form>
+
+<button class="guest" onclick="guest()">លេងជាភ្ញៀវ</button>
+<p id="msg"></p>
+</main>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="firebase-config.js"></script><script src="auth.js"></script><script src="account.js"></script>
-</body></html>
+<script src="firebase-config.js?v=2"></script>
+<script src="auth.js?v=2"></script>
+<script src="account.js?v=2"></script>
+</body>
+</html>
