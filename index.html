@@ -71,10 +71,15 @@
 
 <div id="profileUser" style="display:none">
 <div class="profile-stats">
-<div><b>0</b><span>ប្រកួត</span></div>
-<div><b>0</b><span>ឈ្នះ</span></div>
-<div><b>0</b><span>ស្មើ</span></div>
-<div><b>0</b><span>ចាញ់</span></div>
+<div><b id="statGames">0</b><span>ប្រកួត</span></div>
+<div><b id="statWins">0</b><span>ឈ្នះ</span></div>
+<div><b id="statDraws">0</b><span>ស្មើ</span></div>
+<div><b id="statLosses">0</b><span>ចាញ់</span></div>
+</div>
+<div class="card-panel">
+<b>💰 កាក់សិប្បនិម្មិត</b>
+<div class="stat-row"><span>Coins</span><b id="profileCoins">0 ៛</b></div>
+<div class="stat-row"><span>ពិន្ទុ</span><b id="profilePoints">0</b></div>
 </div>
 <div class="card-panel">
 <b>📊 ស្ថិតិតាមហ្គេម</b>
@@ -110,8 +115,9 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js?v=3"></script>
+<script src="auth.js?v=3"></script>
 
 <script>
 const ranks=[

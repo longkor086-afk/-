@@ -55,17 +55,24 @@ async function submitAuth(event){
         displayName: name
       });
 
-      showMsg("✅ បង្កើតគណនីជោគជ័យ!", "success");
+      // Create the Firestore profile immediately after registration.
+      await window.khmerGameAuth.ensureUserProfile(result.user);
+
+      showMsg("✅ បង្កើតគណនី និង Profile ជោគជ័យ! 5,000៛ ត្រូវបានផ្តល់ជូន។", "success");
     }else{
       await window.khmerGameAuth.auth
         .signInWithEmailAndPassword(email, password);
+
+      // If an older account has no Firestore profile, create it now.
+      const user = window.khmerGameAuth.auth.currentUser;
+      await window.khmerGameAuth.ensureUserProfile(user);
 
       showMsg("✅ ចូលគណនីជោគជ័យ!", "success");
     }
 
     setTimeout(() => {
       location.href = "index.html";
-    }, 700);
+    }, 900);
 
   }catch(error){
     console.error(error);
@@ -83,6 +90,8 @@ async function submitAuth(event){
       text = "អ៊ីមែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ។";
     else if(!error.code && error.message)
       text = error.message;
+    else if(error.code === "permission-denied")
+      text = "Firebase Rules មិនអនុញ្ញាតឱ្យបង្កើត Profile។ សូមពិនិត្យ Firestore Rules។";
 
     showMsg(text, "error");
   }finally{

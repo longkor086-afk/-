@@ -1,0 +1,20 @@
+Firestore Rules ដែលត្រូវបានកំណត់សម្រាប់ Profile៖
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{userId} {
+      allow read, create: if request.auth != null
+                    && request.auth.uid == userId;
+
+      allow update: if request.auth != null
+                    && request.auth.uid == userId;
+
+      allow delete: if false;
+    }
+  }
+}
+
+សម្គាល់៖ កុំបើក allow read, write សម្រាប់ database ទាំងមូល។
