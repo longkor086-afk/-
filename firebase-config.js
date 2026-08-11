@@ -1,12 +1,13 @@
 // Firebase configuration
 // Replace the values below with YOUR Firebase Web App config.
 // Firebase Console → Project settings → Your apps → Web app
-window.FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.firebasestorage.app",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyArfAGe6xTIV-Oe5PkVz5zo0kRJt8n9z4I",
+  authDomain: "khmer-game-5944c.firebaseapp.com",
+  projectId: "khmer-game-5944c",
+  storageBucket: "khmer-game-5944c.firebasestorage.app",
+  messagingSenderId: "338424269582",
+  appId: "1:338424269582:web:3456321dd36488a4a8255f",
+  measurementId: "G-X7HRQMK0EY"
 };
