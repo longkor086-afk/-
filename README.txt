@@ -1,14 +1,13 @@
-KhmerGame Phase 2 — Account foundation
+KHMER GAME - Header Coins + Rank
 
-Files:
-account.html   login/register UI
-account.css    account design
-account.js     auth UI scaffold
-auth.js        user/profile bridge
-firebase-config.js  Firebase config placeholder
+យក auth.js ក្នុង ZIP នេះទៅជំនួស auth.js ចាស់ក្នុង GitHub។
 
-Important:
-1. Do not paste Firebase secrets/tokens into public chat.
-2. Fill firebase-config.js with the Web App config from your Firebase project.
-3. This phase does not change game.js or ouk/ouk.js.
-4. Next phase: real Firebase Authentication + Firestore/Realtime Database profile and stats.
+បន្ទាប់ពីដាក់រួច Refresh Website។
+
+Header នឹងបង្ហាញ៖
+🪙 5,000 +    🏆 0    👤
+
+- Coins ទាញពី Firestore users/{UID}.coins
+- លេខ 🏆 ទាញពី users/{UID}.points
+- ប៊ូតុង + មានរួច ប៉ុន្តែការទិញ/បន្ថែម Coins មិនទាន់ភ្ជាប់ទេ
+- មិនប៉ះពាល់ game.js, style.css ឬ folder ouk ទេ
