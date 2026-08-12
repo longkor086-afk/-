@@ -1,0 +1,60 @@
+
+/* Transaction History */
+.history-card{
+  width:min(760px,100%);
+  margin:12px auto 0;
+  padding:18px;
+  border-radius:19px;
+  background:#17171a;
+  border:1px solid #ffffff14;
+  color:#f6f0e6;
+  box-shadow:0 15px 35px #0005;
+}
+.history-card h2{margin:0 0 5px;font-size:20px}
+.history-sub{margin:0 0 14px;color:#9e9890;font-size:11px}
+.tx-list{display:grid;gap:9px}
+.tx-item{
+  padding:13px;
+  border-radius:15px;
+  background:#111114;
+  border:1px solid #ffffff12;
+}
+.tx-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+}
+.tx-top b{display:block;font-size:14px}
+.tx-top small{display:block;color:#88827c;font-size:10px;margin-top:3px}
+.tx-top strong{color:#f0ce80;font-size:14px}
+.tx-info{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:10px;
+  font-size:10px;
+  color:#918b85;
+}
+.tx-status{font-weight:800}
+.tx-status.approved{color:#80d89b}
+.tx-status.rejected{color:#ff9696}
+.tx-status.pending{color:#e8c46f}
+.tx-id{
+  margin-top:7px;
+  color:#625f5b;
+  font-size:8px;
+  word-break:break-all;
+}
+.tx-empty{
+  text-align:center;
+  padding:25px 8px;
+  color:#9e9890;
+  font-size:12px;
+}
+.tx-empty.error{color:#ff9b9b}
+@media(max-width:480px){
+  .history-card{border-radius:16px;padding:14px}
+  .tx-info{align-items:flex-start;flex-direction:column}
+}
