@@ -1,179 +1,50 @@
 <!doctype html>
-<html lang="km">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#0b0b0d">
-<title>ខ្មែរហ្គេម</title>
+<html lang="km"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0b0b0d"><title>ខ្មែរហ្គេម</title>
 <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="app">
-<header class="topbar">
-  <div class="brand" onclick="showPage('home')">
-    <div class="brand-logo">♟</div>
-    <div><b>ខ្មែរហ្គេម</b><small>ល្បែងកម្សាន្តខ្មែរ</small></div>
-  </div>
-  <button class="avatar-btn" onclick="showPage('profile')">👤</button>
-</header>
-
+<style>
+.cg-list{display:grid;gap:8px;margin:12px 0}.cg-card{width:100%;display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);background:#ffffff06;color:var(--text);border-radius:15px;text-align:left}.cg-card>span{font-size:22px}.cg-card div{flex:1}.cg-card b{display:block;font-size:13px}.cg-card small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.cg-card i{font-style:normal;color:var(--gold2);font-size:22px}.full-btn{width:100%;margin-top:10px}.stake-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.stake-summary div{border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}.stake-summary span{display:block;color:var(--muted);font-size:8px}.stake-summary b{font-size:11px;color:var(--gold2)}
+</style></head><body><div class="app">
+<header class="topbar"><div class="brand" onclick="showPage('home')"><div class="brand-logo">♟</div><div><b>ខ្មែរហ្គេម</b><small>ល្បែងកម្សាន្តខ្មែរ</small></div></div><button class="avatar-btn" onclick="showPage('profile')">👤</button></header>
 <main>
-<section id="page-home" class="page active">
-<div class="hero"><span class="eyebrow">WELCOME TO KHMER GAME</span>
-<h1>លេង • ប្រកួត • ឡើងចំណាត់ថ្នាក់</h1>
-<p>ល្បែងខ្មែរប្រពៃណី និងហ្គេមថ្មីៗ នៅក្នុងកម្មវិធីតែមួយ។</p>
-<button class="primary-btn" onclick="showPage('online')">🌐 ចូលលេង Online</button></div>
-<div class="section-title"><div><span>GAME LIBRARY</span><h2>ហ្គេម</h2></div></div>
-<div class="games">
+<section id="page-home" class="page active"><div class="hero"><span class="eyebrow">WELCOME TO KHMER GAME</span><h1>លេង • ប្រកួត • ឡើងចំណាត់ថ្នាក់</h1><p>ល្បែងខ្មែរប្រពៃណី និងហ្គេមថ្មីៗ នៅក្នុងកម្មវិធីតែមួយ។</p><button class="primary-btn" onclick="showPage('online')">🌐 ចូលលេង Online</button></div><div class="section-title"><div><span>GAME LIBRARY</span><h2>ហ្គេម</h2></div></div><div class="games">
 <button class="game-card gold" onclick="location.href='?game=lerak'"><div class="game-icon">🛡️</div><div><b>រែក</b><small>រែកធម្មតា • រែកព័ទ្ធ</small></div><i>›</i></button>
 <button class="game-card brown" onclick="location.href='ouk/'"><div class="game-icon">♟️</div><div><b>អុកខ្មែរ</b><small>អុក ឬ ចត្រង្គ</small></div><i>›</i></button>
 <button class="game-card locked" disabled><div class="game-icon">🐯</div><div><b>ខ្លាស៊ីគោ</b><small>កំពុងរៀបចំ</small></div><em>SOON</em></button>
-<button class="game-card locked" disabled><div class="game-icon">🕳️</div><div><b>ខ្លាធ្លាក់អណ្តូង</b><small>កំពុងរៀបចំ</small></div><em>SOON</em></button>
-</div>
-<div class="quick-grid">
-<button onclick="showPage('ranking')"><strong>🏆</strong><span>ចំណាត់ថ្នាក់</span><small>ប្រកួតជាមួយអ្នកដទៃ</small></button>
-<button onclick="showPage('online')"><strong>🌐</strong><span>Online</span><small>រកបន្ទប់ និងប្រកួត</small></button>
-</div>
-</section>
-
-<section id="page-online" class="page">
-<div class="page-head"><span class="eyebrow">MULTIPLAYER</span><h1>លេង Online</h1><p>ប្រកួតជាមួយអ្នកលេងផ្សេងទៀត</p></div>
-<div class="online-actions">
-<button class="big-action" onclick="room('create')"><span>➕</span><b>បង្កើតបន្ទប់</b><small>បង្កើត Room ហើយអញ្ជើញមិត្ត</small></button>
-<button class="big-action" onclick="room('join')"><span>🚪</span><b>ចូលបន្ទប់</b><small>បញ្ចូលលេខ Room ដើម្បីចូល</small></button>
-<button class="big-action" onclick="room('quick')"><span>⚡</span><b>Quick Match</b><small>ស្វែងរកគូប្រកួតដោយស្វ័យប្រវត្តិ</small></button>
-</div>
-<div class="notice"><b>🔐 Online System</b><p>Real-time Server នឹងភ្ជាប់នៅដំណាក់កាល Online បន្ទាប់។</p></div>
-</section>
-
-<section id="page-ranking" class="page">
-<div class="page-head"><span class="eyebrow">LEADERBOARD</span><h1>ចំណាត់ថ្នាក់</h1><p>ឈ្នះ +3 • ស្មើ +1 • ចាញ់ −1</p></div>
-<div class="rank-tabs"><button class="active" onclick="tab(this)">ទាំងអស់</button><button onclick="tab(this)">រែក</button><button onclick="tab(this)">អុក</button></div>
-<div id="ranks" class="ranking-list"></div>
-</section>
-
-<section id="page-profile" class="page">
-<div class="profile-cover">
-  <div class="profile-avatar" id="profileAvatar">👤</div>
-  <div>
-    <span class="eyebrow">PLAYER PROFILE</span>
-    <h1 id="profileName">អ្នកលេង</h1>
-    <p id="profileId">មិនទាន់ចូលគណនី</p>
-    <small id="profileEmail"></small>
-  </div>
-</div>
-
-<div id="profileGuest" class="card-panel">
-  <b>🔐 ចូលប្រើ Profile</b>
-  <p>សូមចូលគណនី ដើម្បីរក្សាទុកស្ថិតិការប្រកួត និងចំណាត់ថ្នាក់របស់អ្នក។</p>
-  <button class="primary-btn" onclick="location.href='account.html'">🔐 ចូលគណនី / បង្កើតគណនី</button>
-</div>
-
-<div id="profileUser" style="display:none">
-<div class="profile-stats">
-<div><b id="statGames">0</b><span>ប្រកួត</span></div>
-<div><b id="statWins">0</b><span>ឈ្នះ</span></div>
-<div><b id="statDraws">0</b><span>ស្មើ</span></div>
-<div><b id="statLosses">0</b><span>ចាញ់</span></div>
-</div>
-<div class="card-panel">
-<b>💰 កាក់សិប្បនិម្មិត</b>
-<div class="stat-row"><span>Coins</span><b id="profileCoins">0 ៛</b></div>
-<div class="stat-row"><span>ពិន្ទុ</span><b id="profilePoints">0</b></div>
-</div>
-<div class="card-panel">
-<b>📊 ស្ថិតិតាមហ្គេម</b>
-<div class="stat-row"><span>🛡️ រែកធម្មតា</span><b>0 ពិន្ទុ</b></div>
-<div class="stat-row"><span>🛡️ រែកព័ទ្ធ</span><b>0 ពិន្ទុ</b></div>
-<div class="stat-row"><span>♟️ អុកខ្មែរ</span><b>0 ពិន្ទុ</b></div>
-</div>
-<div class="card-panel">
-<b>🏆 Achievement</b>
-<div class="achievements">
-<span>🔒<small>First Win</small></span>
-<span>🔒<small>10 Wins</small></span>
-<span>🔒<small>100 Games</small></span>
-<span>🔒<small>Top 10</small></span>
-</div>
-</div>
-<div class="card-panel">
-<button class="primary-btn" onclick="logout()">🚪 ចាកចេញ</button>
-</div>
-</div>
-</section>
+<button class="game-card locked" disabled><div class="game-icon">🕳️</div><div><b>ខ្លាធ្លាក់អណ្តូង</b><small>កំពុងរៀបចំ</small></div><em>SOON</em></button></div>
+<div class="quick-grid"><button onclick="showPage('ranking')"><strong>🏆</strong><span>ចំណាត់ថ្នាក់</span><small>ប្រកួតជាមួយអ្នកដទៃ</small></button><button onclick="showPage('online')"><strong>🌐</strong><span>Online</span><small>រកបន្ទប់ និងប្រកួត</small></button></div></section>
+<section id="page-online" class="page"><div class="page-head"><span class="eyebrow">MULTIPLAYER</span><h1>លេង Online</h1><p>ជ្រើសការភ្នាល់មុនចូលប្រកួត</p></div><div class="online-actions">
+<button class="big-action" onclick="openBetting('create')"><span>➕</span><b>បង្កើតបន្ទប់</b><small>ជ្រើសហ្គេម • ភ្នាល់ • ពេលវេលា</small></button>
+<button class="big-action" onclick="openBetting('join')"><span>🚪</span><b>ចូលបន្ទប់</b><small>បញ្ចូលលេខ Room ហើយជ្រើស Stake</small></button>
+<button class="big-action" onclick="openBetting('quick')"><span>⚡</span><b>Quick Match</b><small>ស្វែងរកគូប្រកួតតាម Stake</small></button></div>
+<div class="notice"><b>🪙 ប្រព័ន្ធភ្នាល់</b><p>ឥឡូវនេះជាដំណាក់កាល UI។ Coins មិនទាន់ត្រូវបានកាត់ពិតទេ។</p></div></section>
+<section id="page-ranking" class="page"><div class="page-head"><span class="eyebrow">LEADERBOARD</span><h1>ចំណាត់ថ្នាក់</h1><p>ឈ្នះ +3 • ស្មើ +1 • ចាញ់ −1</p></div><div class="rank-tabs"><button class="active" onclick="tab(this)">ទាំងអស់</button><button onclick="tab(this)">រែក</button><button onclick="tab(this)">អុក</button></div><div id="ranks" class="ranking-list"></div></section>
+<section id="page-profile" class="page"><div class="profile-cover"><div class="profile-avatar" id="profileAvatar">👤</div><div><span class="eyebrow">PLAYER PROFILE</span><h1 id="profileName">អ្នកលេង</h1><p id="profileId">មិនទាន់ចូលគណនី</p><small id="profileEmail"></small></div></div>
+<div id="profileGuest" class="card-panel"><b>🔐 ចូលប្រើ Profile</b><p>សូមចូលគណនី ដើម្បីរក្សាទុកស្ថិតិការប្រកួត និងចំណាត់ថ្នាក់របស់អ្នក។</p><button class="primary-btn" onclick="location.href='account.html'">🔐 ចូលគណនី / បង្កើតគណនី</button></div>
+<div id="profileUser" style="display:none"><div class="profile-stats"><div><b id="statGames">0</b><span>ប្រកួត</span></div><div><b id="statWins">0</b><span>ឈ្នះ</span></div><div><b id="statDraws">0</b><span>ស្មើ</span></div><div><b id="statLosses">0</b><span>ចាញ់</span></div></div>
+<div class="card-panel"><b>💰 កាក់សិប្បនិម្មិត</b><div class="stat-row"><span>Coins</span><b id="profileCoins">0 ៛</b></div><div class="stat-row"><span>ពិន្ទុ</span><b id="profilePoints">0</b></div><button class="primary-btn full-btn" onclick="openShop()">🪙 បន្ថែម Coins</button></div>
+<div class="card-panel"><b>📊 ស្ថិតិតាមហ្គេម</b><div class="stat-row"><span>🛡️ រែកធម្មតា</span><b>0 ពិន្ទុ</b></div><div class="stat-row"><span>🛡️ រែកព័ទ្ធ</span><b>0 ពិន្ទុ</b></div><div class="stat-row"><span>♟️ អុកខ្មែរ</span><b>0 ពិន្ទុ</b></div></div>
+<div class="card-panel"><b>🏆 Achievement</b><div class="achievements"><span>🔒<small>First Win</small></span><span>🔒<small>10 Wins</small></span><span>🔒<small>100 Games</small></span><span>🔒<small>Top 10</small></span></div></div>
+<div class="card-panel"><button class="primary-btn" onclick="logout()">🚪 ចាកចេញ</button></div></div></section>
 </main>
-
-<nav class="bottom-nav">
-<button class="active" data-page="home" onclick="showPage('home')">⌂<small>ទំព័រដើម</small></button>
-<button data-page="online" onclick="showPage('online')">⚔<small>Online</small></button>
-<button data-page="ranking" onclick="showPage('ranking')">🏆<small>ចំណាត់ថ្នាក់</small></button>
-<button data-page="profile" onclick="showPage('profile')">👤<small>Profile</small></button>
-</nav>
-
-<div id="modal" class="modal"><div class="modal-box"><button class="close" onclick="closeModal()">×</button><div id="modal-content"></div></div></div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js?v=3"></script>
-<script src="auth.js?v=3"></script>
-
+<nav class="bottom-nav"><button class="active" data-page="home" onclick="showPage('home')">⌂<small>ទំព័រដើម</small></button><button data-page="online" onclick="showPage('online')">⚔<small>Online</small></button><button data-page="ranking" onclick="showPage('ranking')">🏆<small>ចំណាត់ថ្នាក់</small></button><button data-page="profile" onclick="showPage('profile')">👤<small>Profile</small></button></nav>
+<div id="modal" class="modal"><div class="modal-box"><button class="close" onclick="closeModal()">×</button><div id="modal-content"></div></div></div></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script><script src="firebase-config.js?v=3"></script><script src="auth.js?v=3"></script>
 <script>
-const ranks=[
-['🥇','Khmer King',245,82],
-['🥈','Angkor Player',238,79],
-['🥉','Sovann Game',231,74],
-['4','Khmer Warrior',220,69],
-['5','Mekong',214,65],
-['6','Player KH',207,62]
-];
-
-function showPage(n){
- document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
- document.getElementById('page-'+n).classList.add('active');
- document.querySelectorAll('.bottom-nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===n));
- if(n==='ranking')render();
- scrollTo(0,0);
-}
-
-function render(){
- document.getElementById('ranks').innerHTML=ranks.map(x=>`
- <div class="rank-row">
- <strong class="rank-num">${x[0]}</strong>
- <div class="mini-avatar">👤</div>
- <div class="rank-name"><b>${x[1]}</b><small>ឈ្នះ ${x[3]} ប្រកួត</small></div>
- <strong class="score">${x[2]}<small> pts</small></strong>
- </div>`).join('');
-}
-
-function tab(b){
- document.querySelectorAll('.rank-tabs button').forEach(x=>x.classList.remove('active'));
- b.classList.add('active');render();
-}
-
-function room(t){
- let s=t==='create'
- ?'<h2>➕ បង្កើតបន្ទប់</h2><p>បង្កើត Room និងអញ្ជើញមិត្ត។</p>'
- :t==='join'
- ?'<h2>🚪 ចូលបន្ទប់</h2><input class="room-input" placeholder="បញ្ចូល Room ID">'
- :'<h2>⚡ Quick Match</h2><p>ស្វែងរកគូប្រកួតដោយស្វ័យប្រវត្តិ។';
- document.getElementById('modal-content').innerHTML=s+'<button class="primary-btn" onclick="closeModal()">យល់ព្រម</button>';
- document.getElementById('modal').classList.add('show');
-}
-
+const ranks=[['🥇','Khmer King',245,82],['🥈','Angkor Player',238,79],['🥉','Sovann Game',231,74],['4','Khmer Warrior',220,69],['5','Mekong',214,65],['6','Player KH',207,62]];
+const packs=[[10000,'$0.99'],[50000,'$4.50'],[100000,'$8.99'],[500000,'$30.99']];
+const stakes=[[1000,1900,100],[10000,19500,500],[100000,199000,1000],[1000000,1990000,10000],[10000000,19900000,100000]];
+const fmt=n=>Number(n).toLocaleString();
+function showPage(n){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+n).classList.add('active');document.querySelectorAll('.bottom-nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===n));if(n==='ranking')render();scrollTo(0,0)}
+function render(){document.getElementById('ranks').innerHTML=ranks.map(x=>`<div class="rank-row"><strong class="rank-num">${x[0]}</strong><div class="mini-avatar">👤</div><div class="rank-name"><b>${x[1]}</b><small>ឈ្នះ ${x[3]} ប្រកួត</small></div><strong class="score">${x[2]}<small> pts</small></strong></div>`).join('')}
+function tab(b){document.querySelectorAll('.rank-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
+function modal(s){document.getElementById('modal-content').innerHTML=s;document.getElementById('modal').classList.add('show')}
 function closeModal(){document.getElementById('modal').classList.remove('show')}
-
-async function logout(){
- try{
-   if(window.khmerGameAuth?.auth){
-     await window.khmerGameAuth.auth.signOut();
-   }
-   showPage('profile');
- }catch(e){alert('មិនអាចចាកចេញបានទេ។');}
-}
-
+function openShop(){modal(`<span class="eyebrow">COINS SHOP</span><h2>🪙 ទិញ Coins</h2><p>ជ្រើស Package។ Payment នឹងភ្ជាប់នៅជំហានបន្ទាប់។</p><div class="cg-list">${packs.map(p=>`<button class="cg-card" onclick="selectPack(${p[0]},'${p[1]}')"><span>🪙</span><div><b>${fmt(p[0])} Coins</b><small>${p[1]}</small></div><i>›</i></button>`).join('')}</div>`)}
+function selectPack(c,p){modal(`<h2>🪙 ${fmt(c)} Coins</h2><p>តម្លៃ <b>${p}</b></p><div class="notice"><b>Payment មិនទាន់ភ្ជាប់</b><p>នេះជាការសាក UI ប៉ុណ្ណោះ។</p></div><button class="primary-btn full-btn" onclick="openShop()">← ត្រឡប់</button>`)}
+function openBetting(mode){const u=window.khmerGameAuth?.getUser?.();if(!u){modal(`<h2>🔐 ត្រូវចូលគណនី</h2><p>សូម Login/Register មុនចូលប្រកួត Online។</p><button class="primary-btn full-btn" onclick="location.href='account.html'">ចូលគណនី</button>`);return}modal(`<span class="eyebrow">BETTING</span><h2>🎮 ជ្រើសការភ្នាល់</h2><p>ជ្រើសចំនួន Coins។ មិនទាន់កាត់ពិតទេ។</p><div class="cg-list">${stakes.map(s=>`<button class="cg-card" onclick="selectStake(${s[0]})"><span>🪙</span><div><b>${fmt(s[0])} Coins</b><small>ឈ្នះទទួល ${fmt(s[1])} • សេវា ${fmt(s[2])}</small></div><i>›</i></button>`).join('')}</div>`)}
+function selectStake(a){const s=stakes.find(x=>x[0]===a),raw=document.getElementById('headerCoinsValue')?.textContent||'0',bal=Number(raw.replace(/,/g,''))||0,ok=bal>=a;modal(`<h2>🪙 ${fmt(a)} Coins</h2><div class="stake-summary"><div><span>ភ្នាល់</span><b>${fmt(a)}</b></div><div><span>ឈ្នះទទួល</span><b>${fmt(s[1])}</b></div><div><span>សេវា</span><b>${fmt(s[2])}</b></div></div><p>Coins របស់អ្នក៖ <b>${fmt(bal)}</b></p><div class="notice"><b>${ok?'✅ Coins គ្រប់គ្រាន់':'❌ Coins មិនគ្រប់'}</b><p>${ok?'Stake នឹងត្រូវ Lock ពេល Server Online រួច។':'សូមបន្ថែម Coins។'}</p></div><button class="primary-btn full-btn" onclick="${ok?'closeModal()':'openShop()'}">${ok?'បន្ត':'🪙 បន្ថែម Coins'}</button>`)}
+async function logout(){try{if(window.khmerGameAuth?.auth)await window.khmerGameAuth.auth.signOut();showPage('profile')}catch(e){alert('មិនអាចចាកចេញបានទេ។')}}
 render();
-</script>
-</body>
-</html>
+</script></body></html>
