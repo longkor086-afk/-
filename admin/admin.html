@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="km">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0b0d">
+<title>Admin — Khmer Game</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<main class="app">
+  <header class="top">
+    <div>
+      <span class="eyebrow">KHMER GAME</span>
+      <h1>🛠️ Admin Panel</h1>
+    </div>
+    <button id="logoutBtn" class="ghost">ចាកចេញ</button>
+  </header>
+
+  <section id="loginState" class="card">
+    <h2>🔐 កំពុងពិនិត្យសិទ្ធិ</h2>
+    <p id="loginMsg">សូមរង់ចាំ...</p>
+  </section>
+
+  <section id="adminState" class="hidden">
+    <div class="stats">
+      <div class="card"><small>Pending</small><b id="pendingCount">0</b></div>
+      <div class="card"><small>Admin</small><b id="adminEmail">-</b></div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <span class="eyebrow">TOP UP</span>
+          <h2>📋 សំណើ Top Up</h2>
+        </div>
+        <button id="refreshBtn" class="gold">↻ Refresh</button>
+      </div>
+      <div id="requests" class="list"></div>
+    </div>
+  </section>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js?v=3"></script>
+<script src="admin.js?v=1"></script>
+</body>
+</html>

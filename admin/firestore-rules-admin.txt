@@ -1,0 +1,84 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* IMPORTANT:
+       Replace YOUR_ADMIN_EMAIL with the exact email of your Admin Firebase account.
+       Do not give this email/password to other people.
+    */
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == "YOUR_ADMIN_EMAIL";
+    }
+
+    match /users/{userId} {
+      allow read: if isAdmin()
+        || (request.auth != null && request.auth.uid == userId);
+
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.coins == 0
+        && request.resource.data.points == 0
+        && request.resource.data.wins == 0
+        && request.resource.data.losses == 0
+        && request.resource.data.draws == 0
+        && request.resource.data.totalGames == 0;
+
+      /* Normal users cannot change their balance/stats.
+         Admin can update user balances after a verified payment. */
+      allow update: if isAdmin()
+        || (
+          request.auth != null
+          && request.auth.uid == userId
+          && request.resource.data.coins == resource.data.coins
+          && request.resource.data.points == resource.data.points
+          && request.resource.data.wins == resource.data.wins
+          && request.resource.data.losses == resource.data.losses
+          && request.resource.data.draws == resource.data.draws
+          && request.resource.data.totalGames == resource.data.totalGames
+        );
+
+      allow delete: if false;
+    }
+
+    match /transactions/{id} {
+      allow read: if isAdmin()
+        || (request.auth != null && resource.data.userId == request.auth.uid);
+
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.type == "topup"
+        && request.resource.data.status == "pending"
+        && request.resource.data.createdAt == request.time
+        && (
+          (request.resource.data.packageId=="coins_10000" &&
+           request.resource.data.coins==10000 &&
+           request.resource.data.amount==0.99)
+          ||
+          (request.resource.data.packageId=="coins_50000" &&
+           request.resource.data.coins==50000 &&
+           request.resource.data.amount==4.50)
+          ||
+          (request.resource.data.packageId=="coins_100000" &&
+           request.resource.data.coins==100000 &&
+           request.resource.data.amount==8.99)
+          ||
+          (request.resource.data.packageId=="coins_500000" &&
+           request.resource.data.coins==500000 &&
+           request.resource.data.amount==30.99)
+        );
+
+      allow update: if isAdmin()
+        && resource.data.type == "topup"
+        && resource.data.status == "pending"
+        && request.resource.data.status in ["approved", "rejected"];
+
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
