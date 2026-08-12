@@ -1,84 +1,11 @@
-
-/* KHMER GAME — Coins Shop + Betting UI V1
-   This overlay keeps the existing game/profile code intact.
-*/
+/* KHMER GAME — Coins Shop + Betting UI V2 */
 (function(){
-  const packs=[
-    [10000,"$0.99"],[50000,"$4.50"],[100000,"$8.99"],[500000,"$30.99"]
-  ];
-  const stakes=[
-    [1000,1900,100],[10000,19500,500],[100000,199000,1000],
-    [1000000,1990000,10000],[10000000,19900000,100000]
-  ];
+  const packs=[[10000,"$0.99"],[50000,"$4.50"],[100000,"$8.99"],[500000,"$30.99"]];
+  const stakes=[[1000,900,100],[10000,9500,500],[100000,99000,1000],[1000000,990000,10000],[10000000,9900000,100000]];
   const fmt=n=>Number(n).toLocaleString();
-
-  function modal(html){
-    const m=document.getElementById("modal"), c=document.getElementById("modal-content");
-    if(!m||!c)return;
-    c.innerHTML=html;
-    m.classList.add("show");
-  }
-  function close(){document.getElementById("modal")?.classList.remove("show")}
-
-  window.openShop=function(){
-    modal(`<span class="eyebrow">COINS SHOP</span><h2>🪙 ទិញ Coins</h2>
-    <p class="modal-muted">ជ្រើស Package ដែលអ្នកចង់ទិញ។ Payment នឹងភ្ជាប់នៅជំហានបន្ទាប់។</p>
-    <div class="cg-list">${packs.map(p=>`
-      <button class="cg-card" onclick="selectCoinPack(${p[0]},'${p[1]}')">
-        <span>🪙</span><div><b>${fmt(p[0])} Coins</b><small>${p[1]}</small></div><i>›</i>
-      </button>`).join("")}</div>`);
-  };
-
-  window.selectCoinPack=function(coins,price){
-    modal(`<h2>🪙 ${fmt(coins)} Coins</h2><p>តម្លៃ <b>${price}</b></p>
-    <div class="notice"><b>Payment មិនទាន់ភ្ជាប់</b><p>នេះជាដំណាក់កាល UI ប៉ុណ្ណោះ។ មិនទាន់បន្ថែម Coins ពិតទេ។</p></div>
-    <button class="primary-btn" onclick="openShop()">← ត្រឡប់</button>`);
-  };
-
-  window.openBetting=function(mode){
-    const user=window.khmerGameAuth?.getUser?.();
-    if(!user){
-      modal(`<h2>🔐 ត្រូវចូលគណនី</h2><p>សូម Login/Register មុនចូលប្រកួត Online។</p>
-      <button class="primary-btn" onclick="location.href='account.html'">ចូលគណនី</button>`);
-      return;
-    }
-    modal(`<span class="eyebrow">BETTING</span><h2>🎮 ជ្រើសការភ្នាល់</h2>
-    <p class="modal-muted">ឥឡូវនេះមិនទាន់កាត់ Coins ពិតទេ។</p>
-    <div class="cg-list">${stakes.map(s=>`
-      <button class="cg-card" onclick="selectStake(${s[0]})">
-        <span>🪙</span><div><b>${fmt(s[0])} Coins</b><small>ឈ្នះ ${fmt(s[1])} • សេវា ${fmt(s[2])}</small></div><i>›</i>
-      </button>`).join("")}</div>`);
-  };
-
-  window.selectStake=function(amount){
-    const s=stakes.find(x=>x[0]===amount);
-    const raw=document.getElementById("headerCoinsValue")?.textContent||"0";
-    const balance=Number(raw.replace(/,/g,""))||0;
-    const enough=balance>=amount;
-    modal(`<h2>🪙 ${fmt(amount)} Coins</h2>
-    <div class="stake-summary"><div><span>ភ្នាល់</span><b>${fmt(amount)}</b></div>
-    <div><span>ឈ្នះទទួល</span><b>${fmt(s[1])}</b></div>
-    <div><span>សេវា</span><b>${fmt(s[2])}</b></div></div>
-    <p>Coins របស់អ្នក៖ <b>${fmt(balance)}</b></p>
-    <div class="notice"><b>${enough?"✅ Coins គ្រប់គ្រាន់":"❌ Coins មិនគ្រប់"}</b>
-    <p>${enough?"Stake នឹងត្រូវ Lock នៅពេល Server Online រួច។":"សូមបន្ថែម Coins មុនចូលប្រកួត។"}</p></div>
-    <button class="primary-btn" onclick="${enough?"closeModal()":"openShop()"}">${enough?"បន្ត":"🪙 បន្ថែម Coins"}</button>`);
-  };
-
-  const style=document.createElement("style");
-  style.textContent=`
-  .modal-muted{color:var(--muted);font-size:11px;line-height:1.7}
-  .cg-list{display:grid;gap:8px;margin:12px 0}
-  .cg-card{width:100%;display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);
-    background:#ffffff06;color:var(--text);border-radius:15px;text-align:left}
-  .cg-card>span{font-size:22px}.cg-card div{flex:1}.cg-card b{display:block;font-size:13px}
-  .cg-card small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
-  .cg-card i{font-style:normal;color:var(--gold2);font-size:22px}
-  .cg-card:active{transform:scale(.98)}
-  .full-btn{width:100%;margin-top:10px}
-  .stake-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}
-  .stake-summary div{border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}
-  .stake-summary span{display:block;color:var(--muted);font-size:8px}.stake-summary b{font-size:11px;color:var(--gold2)}
-  `;
-  document.head.appendChild(style);
+  function modal(html){const m=document.getElementById("modal"),c=document.getElementById("modal-content");if(!m||!c)return;c.innerHTML=html;m.classList.add("show")}
+  window.openShop=function(){modal(`<span class="eyebrow">COINS SHOP</span><h2>🪙 ទិញ Coins</h2><p class="modal-muted">ជ្រើស Package ដែលអ្នកចង់ទិញ។</p><div class="cg-list">${packs.map(p=>`<button class="cg-card" onclick="selectCoinPack(${p[0]},'${p[1]}')"><span>🪙</span><div><b>${fmt(p[0])} Coins</b><small>${p[1]}</small></div><i>›</i></button>`).join("")}</div>`)}
+  window.selectCoinPack=function(coins,price){modal(`<h2>🪙 ${fmt(coins)} Coins</h2><p>តម្លៃ <b>${price}</b></p><div class="notice"><b>Payment មិនទាន់ភ្ជាប់</b><p>នេះជាដំណាក់កាល UI ប៉ុណ្ណោះ។</p></div><button class="primary-btn full-btn" onclick="openShop()">← ត្រឡប់</button>`)}
+  window.openBetting=function(){const user=window.khmerGameAuth?.getUser?.();if(!user){modal(`<h2>🔐 ត្រូវចូលគណនី</h2><p>សូម Login មុនចូលប្រកួត Online។</p><button class="primary-btn" onclick="location.href='account.html'">ចូលគណនី</button>`);return}modal(`<span class="eyebrow">BETTING</span><h2>🎮 ជ្រើសការភ្នាល់</h2><div class="cg-list">${stakes.map(s=>`<button class="cg-card" onclick="selectStake(${s[0]})"><span>🪙</span><div><b>${fmt(s[0])} Coins</b><small>ឈ្នះ ${fmt(s[1])} • សេវា ${fmt(s[2])}</small></div><i>›</i></button>`).join("")}</div>`)}
+  const style=document.createElement("style");style.textContent=`.modal-muted{color:var(--muted);font-size:11px;line-height:1.7}.cg-list{display:grid;gap:8px;margin:12px 0}.cg-card{width:100%;display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);background:#ffffff06;color:var(--text);border-radius:15px;text-align:left}.cg-card>span{font-size:22px}.cg-card div{flex:1}.cg-card b{display:block;font-size:13px}.cg-card small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.cg-card i{font-style:normal;color:var(--gold2);font-size:22px}.full-btn{width:100%;margin-top:10px}.stake-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.stake-summary div{border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}.stake-summary span{display:block;color:var(--muted);font-size:8px}.stake-summary b{font-size:11px;color:var(--gold2)}`;document.head.appendChild(style);
 })();
