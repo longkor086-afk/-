@@ -60,7 +60,8 @@ function ensureLerakEntry(){
  const style=document.createElement("style");
  style.textContent=`.lerak-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}.lerak-head h1{margin:2px 0;font-size:25px}.lerak-head small{color:var(--muted)}.lerak-back{border:1px solid var(--line);background:#ffffff08;color:var(--text);border-radius:12px;padding:10px 12px}.lerak-modes{display:grid;gap:10px}.lerak-modes button{padding:17px;text-align:left;border:1px solid var(--line);border-radius:17px;background:#ffffff06;color:var(--text)}.lerak-modes b{display:block;font-size:15px;color:var(--gold2)}.lerak-modes small{display:block;margin-top:5px;color:var(--muted)}.lerak-info{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:8px 0}.lerak-info>*{border:1px solid var(--line);border-radius:10px;padding:8px 9px;background:#ffffff06;font-size:10px}.lerak-info button{color:var(--text)}.lerak-board{width:min(94vw,620px);aspect-ratio:1;margin:10px auto;display:grid;grid-template-columns:repeat(8,1fr);border:5px solid #8d6a31;border-radius:14px;overflow:hidden;box-shadow:0 12px 35px #0008}.lerak-board .cell{border:1px solid #8a6d3f}.lerak-board .cell.light{background:#e2c47e}.lerak-board .cell.dark{background:#a8793f}.lerak-board .cell.selected{box-shadow:inset 0 0 0 4px #4ba3ff}.lerak-board .cell.move::after{background:#4ba3ff!important}.lerak-board .cell.capture::after{border-color:#ff6d6d!important}.lerak-message,.lerak-help{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:14px;background:#ffffff05}.lerak-help{color:var(--muted);font-size:10px}`;
  document.head.appendChild(style);
- const script=document.createElement("script"); script.src="game.js?v=4"; script.defer=true; document.body.appendChild(script);
+ const script=document.createElement("script"); script.src="game.js?v=5"; script.defer=true; document.body.appendChild(script);
+ const fix=document.createElement("script"); fix.src="game-ui-fix.js?v=1"; fix.defer=true; document.body.appendChild(fix);
 }
 function installBettingFix(){
  const oldOpen=window.openBetting;
@@ -96,7 +97,12 @@ function initKhmerGameAuth(){
   const auth=firebase.auth(),db=firebase.firestore();
   window.khmerGameAuth={auth,db,getUser:()=>currentUser,ensureUserProfile};
   auth.onAuthStateChanged(setUser);
-  const boot=()=>{ensureHeaderHud();ensureMessagesModal();ensureLerakEntry();setTimeout(installBettingFix,0)};
+  const boot=()=>{
+  ensureHeaderHud();ensureMessagesModal();ensureLerakEntry();setTimeout(installBettingFix,0);
+  if(!document.getElementById("khmer-matchmaking-script")){
+    const s=document.createElement("script");s.id="khmer-matchmaking-script";s.src="matchmaking.js?v=3";document.body.appendChild(s);
+  }
+};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
  }catch(e){console.error(e)}
 }
