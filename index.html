@@ -2,50 +2,18 @@
 <html lang="km"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#0b0b0d"><title>ខ្មែរហ្គេម</title>
-<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="messages-history.css?v=1">
+<link rel="stylesheet" href="style.css">
 <style>
 .cg-list{display:grid;gap:8px;margin:12px 0}.cg-card{width:100%;display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);background:#ffffff06;color:var(--text);border-radius:15px;text-align:left}.cg-card>span{font-size:22px}.cg-card div{flex:1}.cg-card b{display:block;font-size:13px}.cg-card small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.cg-card i{font-style:normal;color:var(--gold2);font-size:22px}.full-btn{width:100%;margin-top:10px}.stake-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.stake-summary div{border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}.stake-summary span{display:block;color:var(--muted);font-size:8px}.stake-summary b{font-size:11px;color:var(--gold2)}
 
-
-</style><style>
-.header-tools{display:flex;align-items:center;gap:6px;margin-left:auto}
-.header-stat{position:relative;width:58px;height:42px;padding:3px 4px;border:1px solid var(--line);border-radius:12px;background:#ffffff07;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;cursor:pointer;box-sizing:border-box}
-.header-stat>span{font-size:12px;line-height:12px}
-.header-stat>b{font-size:9px;color:var(--gold2);margin-top:2px;max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.header-stat>small{font-size:6px;color:var(--muted);margin-top:2px}
-.header-stat:active{transform:scale(.96)}
-.messages-button .messages-badge{position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;padding:0 4px;display:none;align-items:center;justify-content:center;border-radius:99px;background:#e35b5b;color:#fff;font-size:8px;font-weight:800;border:2px solid #0b0b0d}
-@media(max-width:520px){
-  .header-tools{gap:4px}
-  .header-stat{width:48px;height:40px}
-  .header-stat>span{font-size:11px}
-  .header-stat>b{font-size:8px;max-width:44px}
-  .header-stat>small{font-size:5px}
-}
-@media(max-width:390px){
-  .header-tools{gap:2px}
-  .header-stat{width:43px}
-  .header-stat>small{display:none}
-}
+<style>
+.test-timer{margin:14px 0;padding:18px;border:1px solid var(--line);border-radius:16px;text-align:center;background:#ffffff05}
+.test-timer span{display:block;color:var(--muted);font-size:9px}
+.test-timer b{display:block;margin-top:4px;color:var(--gold2);font-size:34px;letter-spacing:2px}
+.secondary-btn{width:100%;margin-top:8px;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:#ffffff08;color:var(--text);font-weight:700}
+</style>
 </style></head><body><div class="app">
-<header class="topbar">
-  <div class="brand" onclick="showPage('home')">
-    <div class="brand-logo">♟</div>
-    <div><b>ខ្មែរហ្គេម</b><small>ល្បែងកម្សាន្តខ្មែរ</small></div>
-  </div>
-  <div class="header-tools">
-    <button class="header-stat coin-stat" onclick="showPage('profile')" title="Coins">
-      <span>🪙</span><b id="headerCoinsValue">0</b><small>Coins</small>
-    </button>
-    <button class="header-stat rank-stat" onclick="showPage('ranking')" title="ចំណាត់ថ្នាក់">
-      <span>🏆</span><b id="headerRankValue">#--</b><small>Rank</small>
-    </button>
-    <button class="header-stat message-stat messages-button" onclick="openMessagesHistory()" title="សារ">
-      <span>💬</span><b id="messagesBadge" class="messages-badge"></b><small>សារ</small>
-    </button>
-    <button class="avatar-btn" onclick="showPage('profile')">👤</button>
-  </div>
-</header>
+<header class="topbar"><div class="brand" onclick="showPage('home')"><div class="brand-logo">♟</div><div><b>ខ្មែរហ្គេម</b><small>ល្បែងកម្សាន្តខ្មែរ</small></div></div><button class="avatar-btn" onclick="showPage('profile')">👤</button></header>
 <main>
 <section id="page-home" class="page active"><div class="hero"><span class="eyebrow">WELCOME TO KHMER GAME</span><h1>លេង • ប្រកួត • ឡើងចំណាត់ថ្នាក់</h1><p>ល្បែងខ្មែរប្រពៃណី និងហ្គេមថ្មីៗ នៅក្នុងកម្មវិធីតែមួយ។</p><button class="primary-btn" onclick="showPage('online')">🌐 ចូលលេង Online</button></div><div class="section-title"><div><span>GAME LIBRARY</span><h2>ហ្គេម</h2></div></div><div class="games">
 <button class="game-card gold" onclick="location.href='?game=lerak'"><div class="game-icon">🛡️</div><div><b>រែក</b><small>រែកធម្មតា • រែកព័ទ្ធ</small></div><i>›</i></button>
@@ -68,71 +36,12 @@
 <div class="card-panel"><button class="primary-btn" onclick="logout()">🚪 ចាកចេញ</button></div></div></section>
 </main>
 <nav class="bottom-nav"><button class="active" data-page="home" onclick="showPage('home')">⌂<small>ទំព័រដើម</small></button><button data-page="online" onclick="showPage('online')">⚔<small>Online</small></button><button data-page="ranking" onclick="showPage('ranking')">🏆<small>ចំណាត់ថ្នាក់</small></button><button data-page="profile" onclick="showPage('profile')">👤<small>Profile</small></button></nav>
-<div id="modal" class="modal"><div class="modal-box"><button class="close" onclick="closeModal()">×</button><div id="modal-content"></div></div></div>
-<div id="messagesModal" class="messages-modal" aria-hidden="true">
-  <div class="messages-panel">
-    <div class="messages-panel-head">
-      <div><span class="eyebrow">MESSAGES</span><h2>💬 សារ & ប្រវត្តិ Top Up</h2></div>
-      <button class="messages-close" onclick="closeMessagesHistory()" aria-label="Close">×</button>
-    </div>
-    <div id="messagesHistory" class="messages-history"></div>
-  </div>
-</div></div>
+<div id="modal" class="modal"><div class="modal-box"><button class="close" onclick="closeModal()">×</button><div id="modal-content"></div></div></div></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script><script src="firebase-config.js?v=3"></script><script src="auth.js?v=3"></script>
-<script src="messages-history.js?v=2"></script>
-<script>
-(function(){
-  function setHeaderCoins(n){
-    const el = document.getElementById("headerCoinsValue");
-    if(el) el.textContent = Number(n || 0).toLocaleString();
-  }
-
-  function setHeaderRank(points){
-    const el = document.getElementById("headerRankValue");
-    if(!el) return;
-    const p = Number(points || 0);
-    // Rank label is based on the project's existing points scale.
-    let rank = "Bronze";
-    if(p >= 200) rank = "Diamond";
-    else if(p >= 150) rank = "Platinum";
-    else if(p >= 100) rank = "Gold";
-    else if(p >= 50) rank = "Silver";
-    el.textContent = rank;
-  }
-
-  function watchHeaderUser(){
-    if(!window.firebase || !firebase.auth || !firebase.firestore) return;
-
-    firebase.auth().onAuthStateChanged(function(user){
-      if(!user){
-        setHeaderCoins(0);
-        setHeaderRank(0);
-        return;
-      }
-
-      firebase.firestore().collection("users").doc(user.uid).onSnapshot(function(snap){
-        if(!snap.exists){
-          setHeaderCoins(0);
-          setHeaderRank(0);
-          return;
-        }
-        const d = snap.data() || {};
-        setHeaderCoins(d.coins);
-        setHeaderRank(d.points);
-      }, function(err){
-        console.error("Header user sync:", err);
-      });
-    });
-  }
-
-  // Firebase/Auth are loaded immediately before this script.
-  watchHeaderUser();
-})();
-</script>
 <script>
 const ranks=[['🥇','Khmer King',245,82],['🥈','Angkor Player',238,79],['🥉','Sovann Game',231,74],['4','Khmer Warrior',220,69],['5','Mekong',214,65],['6','Player KH',207,62]];
 const packs=[[10000,'$0.99'],[50000,'$4.50'],[100000,'$8.99'],[500000,'$30.99']];
-const stakes=[[1000,1900,100],[10000,19500,500],[100000,199000,1000],[1000000,1990000,10000],[10000000,19900000,100000]];
+const stakes=[[1000,900,100],[10000,9500,500],[100000,99000,1000],[1000000,990000,10000],[10000000,9900000,100000]];
 const fmt=n=>Number(n).toLocaleString();
 function showPage(n){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+n).classList.add('active');document.querySelectorAll('.bottom-nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===n));if(n==='ranking')render();scrollTo(0,0)}
 function render(){document.getElementById('ranks').innerHTML=ranks.map(x=>`<div class="rank-row"><strong class="rank-num">${x[0]}</strong><div class="mini-avatar">👤</div><div class="rank-name"><b>${x[1]}</b><small>ឈ្នះ ${x[3]} ប្រកួត</small></div><strong class="score">${x[2]}<small> pts</small></strong></div>`).join('')}
@@ -142,7 +51,112 @@ function closeModal(){document.getElementById('modal').classList.remove('show')}
 function openShop(){modal(`<span class="eyebrow">COINS SHOP</span><h2>🪙 ទិញ Coins</h2><p>ជ្រើស Package។ Payment នឹងភ្ជាប់នៅជំហានបន្ទាប់។</p><div class="cg-list">${packs.map(p=>`<button class="cg-card" onclick="selectPack(${p[0]},'${p[1]}')"><span>🪙</span><div><b>${fmt(p[0])} Coins</b><small>${p[1]}</small></div><i>›</i></button>`).join('')}</div>`)}
 function selectPack(c,p){modal(`<h2>🪙 ${fmt(c)} Coins</h2><p>តម្លៃ <b>${p}</b></p><div class="notice"><b>Payment មិនទាន់ភ្ជាប់</b><p>នេះជាការសាក UI ប៉ុណ្ណោះ។</p></div><button class="primary-btn full-btn" onclick="openShop()">← ត្រឡប់</button>`)}
 function openBetting(mode){const u=window.khmerGameAuth?.getUser?.();if(!u){modal(`<h2>🔐 ត្រូវចូលគណនី</h2><p>សូម Login/Register មុនចូលប្រកួត Online។</p><button class="primary-btn full-btn" onclick="location.href='account.html'">ចូលគណនី</button>`);return}modal(`<span class="eyebrow">BETTING</span><h2>🎮 ជ្រើសការភ្នាល់</h2><p>ជ្រើសចំនួន Coins។ មិនទាន់កាត់ពិតទេ។</p><div class="cg-list">${stakes.map(s=>`<button class="cg-card" onclick="selectStake(${s[0]})"><span>🪙</span><div><b>${fmt(s[0])} Coins</b><small>ឈ្នះទទួល ${fmt(s[1])} • សេវា ${fmt(s[2])}</small></div><i>›</i></button>`).join('')}</div>`)}
-function selectStake(a){const s=stakes.find(x=>x[0]===a),raw=document.getElementById('headerCoinsValue')?.textContent||'0',bal=Number(raw.replace(/,/g,''))||0,ok=bal>=a;modal(`<h2>🪙 ${fmt(a)} Coins</h2><div class="stake-summary"><div><span>ភ្នាល់</span><b>${fmt(a)}</b></div><div><span>ឈ្នះទទួល</span><b>${fmt(s[1])}</b></div><div><span>សេវា</span><b>${fmt(s[2])}</b></div></div><p>Coins របស់អ្នក៖ <b>${fmt(bal)}</b></p><div class="notice"><b>${ok?'✅ Coins គ្រប់គ្រាន់':'❌ Coins មិនគ្រប់'}</b><p>${ok?'Stake នឹងត្រូវ Lock ពេល Server Online រួច។':'សូមបន្ថែម Coins។'}</p></div><button class="primary-btn full-btn" onclick="${ok?'closeModal()':'openShop()'}">${ok?'បន្ត':'🪙 បន្ថែម Coins'}</button>`)}
+function selectStake(a){
+  const s=stakes.find(x=>x[0]===a);
+  const raw=document.getElementById('headerCoinsValue')?.textContent||'0';
+  const bal=Number(raw.replace(/,/g,''))||0;
+  const ok=bal>=a;
+
+  modal(`
+    <span class="eyebrow">TEST MATCH</span>
+    <h2>🪙 ${fmt(a)} Coins</h2>
+    <div class="stake-summary">
+      <div><span>ភ្នាល់</span><b>${fmt(a)}</b></div>
+      <div><span>ឈ្នះទទួល</span><b>${fmt(s[1])}</b></div>
+      <div><span>សេវា</span><b>${fmt(s[2])}</b></div>
+    </div>
+    <p>Coins របស់អ្នក៖ <b>${fmt(bal)}</b></p>
+    <div class="notice">
+      <b>${ok?'✅ Coins គ្រប់គ្រាន់':'❌ Coins មិនគ្រប់'}</b>
+      <p>${ok
+        ? 'នេះជា Test Mode។ មិនទាន់កាត់ Coins ឬបង់ប្រាក់ពិតទេ។'
+        : 'សូមបន្ថែម Coins ដើម្បីសាក Test Mode។'}</p>
+    </div>
+    <button class="primary-btn full-btn"
+      onclick="${ok?`startTestMatch(${a})`:`openShop()`}">
+      ${ok?'🎮 ចាប់ផ្តើម Test Match':'🪙 បន្ថែម Coins'}
+    </button>
+  `);
+}
+
+let testTimerId=null;
+let testSeconds=30;
+let testStake=0;
+
+function startTestMatch(stake){
+  const s=stakes.find(x=>x[0]===stake);
+  if(!s) return;
+
+  testStake=stake;
+  testSeconds=30;
+  clearInterval(testTimerId);
+
+  modal(`
+    <span class="eyebrow">TEST MATCH • UI ONLY</span>
+    <h2>🎮 កំពុងប្រកួត</h2>
+
+    <div class="test-timer">
+      <span>ពេលនៅសល់</span>
+      <b id="testTimer">00:30</b>
+    </div>
+
+    <div class="stake-summary">
+      <div><span>Stake</span><b>${fmt(s[0])}</b></div>
+      <div><span>Win</span><b>+${fmt(s[1])}</b></div>
+      <div><span>Fee</span><b>${fmt(s[2])}</b></div>
+    </div>
+
+    <div class="notice">
+      <b>🧪 Test Mode</b>
+      <p>Timer នេះសម្រាប់សាក UI ប៉ុណ្ណោះ។ Coins មិនត្រូវបានកាត់ ឬបន្ថែមទេ។</p>
+    </div>
+
+    <button class="primary-btn full-btn" onclick="testFinish('win')">🏆 Test Win</button>
+    <button class="secondary-btn full-btn" onclick="testFinish('lose')">❌ Test Lose</button>
+  `);
+
+  testTimerId=setInterval(()=>{
+    testSeconds--;
+    const el=document.getElementById('testTimer');
+    if(el) el.textContent=`00:${String(Math.max(testSeconds,0)).padStart(2,'0')}`;
+
+    if(testSeconds<=0){
+      clearInterval(testTimerId);
+      testTimerId=null;
+      testFinish('timeout');
+    }
+  },1000);
+}
+
+function testFinish(result){
+  clearInterval(testTimerId);
+  testTimerId=null;
+
+  const s=stakes.find(x=>x[0]===testStake);
+  if(!s) return closeModal();
+
+  let title='⏱️ អស់ពេល';
+  let text='Turn បានផុតពេល 30 វិនាទី។';
+
+  if(result==='win'){
+    title='🏆 Test Win';
+    text=`លទ្ធផលសាកល្បង៖ +${fmt(s[1])} Coins (Fee ${fmt(s[2])})`;
+  }else if(result==='lose'){
+    title='❌ Test Lose';
+    text=`លទ្ធផលសាកល្បង៖ -${fmt(s[0])} Coins`;
+  }
+
+  modal(`
+    <span class="eyebrow">TEST RESULT</span>
+    <h2>${title}</h2>
+    <div class="notice">
+      <b>${text}</b>
+      <p>🧪 Test Mode — មិនមានការកាត់/បន្ថែម Coins ពិតប្រាកដទេ។</p>
+    </div>
+    <button class="primary-btn full-btn" onclick="closeModal()">យល់ព្រម</button>
+  `);
+}
+
 async function logout(){try{if(window.khmerGameAuth?.auth)await window.khmerGameAuth.auth.signOut();showPage('profile')}catch(e){alert('មិនអាចចាកចេញបានទេ។')}}
 render();
 </script>
