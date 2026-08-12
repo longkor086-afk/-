@@ -1,1 +1,1 @@
-ដាក់ index.html នេះជំនួស index.html ចាស់។ កុំលុប style.css, auth.js, firebase-config.js និង folder ouk/. Coins Shop + Betting UI បានដាក់ក្នុង index.html ផ្ទាល់។ Payment/កាត់ Coins ពិតមិនទាន់ភ្ជាប់។
+KHMER GAME V2 — Upload auth.js, account.js, firestore-rules.txt with your existing project. Keep index.html/style.css/firebase-config.js and game folders. Publish the rules in Firebase Console; the txt file is only a backup. Top Up payment is not live yet and coins are not added client-side.
