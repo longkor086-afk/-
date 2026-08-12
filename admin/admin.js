@@ -1,4 +1,4 @@
-/* KHMER GAME — Admin Panel — FIXED */
+/* KHMER GAME — Admin Panel — Secure Top Up Admin Logic */
 const ADMIN_EMAIL = "longkor168@gmail.com";
 
 let auth = null;
@@ -16,8 +16,12 @@ function coins(n) {
 }
 
 function esc(v) {
-  return String(v ?? "").replace(/[&<>\"']/g, c => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
   }[c]));
 }
 
@@ -36,7 +40,8 @@ function showAdmin(user) {
 }
 
 function isAdmin(user) {
-  return user && (user.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
+  return !!user &&
+    (user.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
 }
 
 async function loginEmailPassword(e) {
@@ -55,16 +60,21 @@ async function loginEmailPassword(e) {
     if (!isAdmin(result.user)) {
       await auth.signOut();
       showLogin("❌ Email នេះមិនមែនជា Admin account ទេ។");
-      return;
     }
   } catch (err) {
     console.error(err);
+
     let msg = "❌ Login មិនជោគជ័យ។";
 
-    if (err.code === "auth/user-not-found") msg = "❌ មិនមាន Admin account នេះទេ។";
-    else if (err.code === "auth/wrong-password") msg = "❌ Password មិនត្រឹមត្រូវ។";
-    else if (err.code === "auth/invalid-credential") msg = "❌ Email ឬ Password មិនត្រឹមត្រូវ។";
-    else if (err.code === "auth/invalid-email") msg = "❌ Email មិនត្រឹមត្រូវ។";
+    if (err.code === "auth/user-not-found") {
+      msg = "❌ មិនមាន Admin account នេះទេ។";
+    } else if (err.code === "auth/wrong-password") {
+      msg = "❌ Password មិនត្រឹមត្រូវ។";
+    } else if (err.code === "auth/invalid-credential") {
+      msg = "❌ Email ឬ Password មិនត្រឹមត្រូវ។";
+    } else if (err.code === "auth/invalid-email") {
+      msg = "❌ Email មិនត្រឹមត្រូវ។";
+    }
 
     showLogin(msg);
   }
@@ -75,6 +85,8 @@ async function loginGoogle() {
 
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+
     const result = await auth.signInWithPopup(provider);
 
     if (!isAdmin(result.user)) {
@@ -86,13 +98,29 @@ async function loginGoogle() {
 
     if (err.code === "auth/popup-closed-by-user") {
       showLogin("Login ត្រូវបានបិទ។");
+    } else if (err.code === "auth/popup-blocked") {
+      showLogin("❌ Browser បានរារាំង Google Login Popup។");
+    } else if (err.code === "auth/unauthorized-domain") {
+      showLogin("❌ Domain នេះមិនទាន់បានដាក់ក្នុង Firebase Authorized Domains។");
     } else {
-      showLogin("❌ Google Login មិនជោគជ័យ។ " + (err.message || ""));
+      showLogin("❌ Google Login មិនជោគជ័យ។");
     }
   }
 }
 
+/*
+  Approve:
+  - Reads transaction + user inside one Firestore transaction.
+  - Only a pending topup can be approved.
+  - Coins are increased exactly once because the transaction status
+    must still be "pending" when Firestore commits.
+*/
 async function approve(id) {
+  if (!auth.currentUser || !isAdmin(auth.currentUser)) {
+    alert("❌ សូម Login ជា Admin មុន។");
+    return;
+  }
+
   if (!confirm("Approve ហើយបន្ថែម Coins មែនទេ?")) return;
 
   try {
@@ -100,33 +128,55 @@ async function approve(id) {
       const trRef = db.collection("transactions").doc(id);
       const trSnap = await tx.get(trRef);
 
-      if (!trSnap.exists) throw new Error("Transaction មិនមានទៀតទេ។");
+      if (!trSnap.exists) {
+        throw new Error("Transaction មិនមានទៀតទេ។");
+      }
 
       const t = trSnap.data();
-
-      if (t.status !== "pending") {
-        throw new Error("Transaction នេះត្រូវបានដំណើរការរួចហើយ។");
-      }
 
       if (t.type !== "topup") {
         throw new Error("Transaction ប្រភេទមិនត្រឹមត្រូវ។");
       }
 
-      const userRef = db.collection("users").doc(t.userId);
+      if (t.status !== "pending") {
+        throw new Error("Transaction នេះត្រូវបានដំណើរការរួចហើយ។");
+      }
+
+      const userId = String(t.userId || "").trim();
+      const topupCoins = Number(t.coins || 0);
+
+      if (!userId) {
+        throw new Error("Transaction មិនមាន User ID។");
+      }
+
+      if (!Number.isFinite(topupCoins) || topupCoins <= 0) {
+        throw new Error("ចំនួន Coins ក្នុង Transaction មិនត្រឹមត្រូវ។");
+      }
+
+      const userRef = db.collection("users").doc(userId);
       const userSnap = await tx.get(userRef);
 
-      if (!userSnap.exists) throw new Error("User Profile មិនមានទេ។");
+      if (!userSnap.exists) {
+        throw new Error("User Profile មិនមានទេ។");
+      }
 
       const u = userSnap.data();
+      const oldCoins = Number(u.coins || 0);
+
+      if (!Number.isFinite(oldCoins) || oldCoins < 0) {
+        throw new Error("Coin balance របស់ User មិនត្រឹមត្រូវ។");
+      }
 
       tx.update(userRef, {
-        coins: Number(u.coins || 0) + Number(t.coins || 0)
+        coins: oldCoins + topupCoins
       });
 
       tx.update(trRef, {
         status: "approved",
         processedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        processedBy: auth.currentUser.uid
+        processedBy: auth.currentUser.uid,
+        processedByEmail: auth.currentUser.email || ADMIN_EMAIL,
+        approvedCoins: topupCoins
       });
     });
 
@@ -135,17 +185,46 @@ async function approve(id) {
   } catch (e) {
     console.error(e);
     alert("❌ " + (e.message || "មិនអាច Approve បាន"));
+    watchRequests();
   }
 }
 
+/*
+  Reject:
+  - Only pending transactions can be rejected.
+  - No coins are added.
+*/
 async function reject(id) {
+  if (!auth.currentUser || !isAdmin(auth.currentUser)) {
+    alert("❌ សូម Login ជា Admin មុន។");
+    return;
+  }
+
   if (!confirm("Reject Top Up Request នេះមែនទេ?")) return;
 
   try {
-    await db.collection("transactions").doc(id).update({
+    const trRef = db.collection("transactions").doc(id);
+    const snap = await trRef.get();
+
+    if (!snap.exists) {
+      throw new Error("Transaction មិនមានទៀតទេ។");
+    }
+
+    const t = snap.data();
+
+    if (t.type !== "topup") {
+      throw new Error("Transaction ប្រភេទមិនត្រឹមត្រូវ។");
+    }
+
+    if (t.status !== "pending") {
+      throw new Error("Transaction នេះត្រូវបានដំណើរការរួចហើយ។");
+    }
+
+    await trRef.update({
       status: "rejected",
       processedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      processedBy: auth.currentUser.uid
+      processedBy: auth.currentUser.uid,
+      processedByEmail: auth.currentUser.email || ADMIN_EMAIL
     });
 
     alert("✅ Reject ជោគជ័យ។");
@@ -153,6 +232,7 @@ async function reject(id) {
   } catch (e) {
     console.error(e);
     alert("❌ " + (e.message || "មិនអាច Reject បាន"));
+    watchRequests();
   }
 }
 
@@ -162,17 +242,16 @@ window.reject = reject;
 function render(docs) {
   const box = $("requests");
 
-  // Filter in JavaScript instead of Firestore composite query.
-  // This avoids requiring a composite index for type + status.
   const topups = docs.filter(s => {
     const d = s.data();
-    return d.type === "topup";
+    return d.type === "topup" && d.status === "pending";
   });
 
   $("pendingCount").textContent = topups.length;
 
   if (!topups.length) {
-    box.innerHTML = '<div class="empty">🎉 មិនមាន Pending Top Up ទេ</div>';
+    box.innerHTML =
+      '<div class="empty">🎉 មិនមាន Pending Top Up ទេ</div>';
     return;
   }
 
@@ -193,23 +272,30 @@ function render(docs) {
       </div>
 
       <div class="actions">
-        <button class="gold" onclick="approve('${s.id}')">✅ Approve</button>
-        <button class="danger" onclick="reject('${s.id}')">❌ Reject</button>
+        <button class="gold" onclick="approve('${esc(s.id)}')">
+          ✅ Approve
+        </button>
+        <button class="danger" onclick="reject('${esc(s.id)}')">
+          ❌ Reject
+        </button>
       </div>
     </article>`;
   }).join("");
 }
 
 function watchRequests() {
-  if (unsubscribe) unsubscribe();
+  if (unsubscribe) {
+    unsubscribe();
+    unsubscribe = null;
+  }
 
-  // Only one where() condition -> no composite index needed.
   unsubscribe = db.collection("transactions")
     .where("status", "==", "pending")
     .onSnapshot(
       snap => render(snap.docs),
       err => {
         console.error(err);
+
         $("requests").innerHTML =
           '<div class="empty">❌ មិនអាចអាន Transactions បាន។ សូមពិនិត្យ Firebase Rules/ការភ្ជាប់ Firebase។</div>';
       }
@@ -231,11 +317,14 @@ function init() {
 
   $("loginForm").addEventListener("submit", loginEmailPassword);
   $("googleBtn").addEventListener("click", loginGoogle);
-
   $("refreshBtn").addEventListener("click", watchRequests);
 
   $("logoutBtn").addEventListener("click", async () => {
-    if (unsubscribe) unsubscribe();
+    if (unsubscribe) {
+      unsubscribe();
+      unsubscribe = null;
+    }
+
     await auth.signOut();
   });
 
