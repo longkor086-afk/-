@@ -1,23 +1,212 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;600;700;800&display=swap');
+
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,#44341f,#0b0b0d 62%);color:#f6f0e6;font-family:'Noto Sans Khmer',system-ui,sans-serif}
-.app{width:min(760px,100%);margin:auto;padding:18px 12px 50px}
-.top,.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.top{border-bottom:1px solid #ffffff12;padding:5px 0 16px;margin-bottom:14px}
-.eyebrow{color:#f0ce80;font-size:9px;letter-spacing:1.5px;font-weight:800}
-h1{font-size:26px;margin:4px 0}h2{font-size:20px;margin:4px 0}
-.card{background:#17171a;border:1px solid #ffffff14;border-radius:19px;padding:16px;margin-bottom:10px;box-shadow:0 15px 35px #0005}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats .card{margin:0}
-.stats small{display:block;color:#9e9890;font-size:10px}.stats b{display:block;margin-top:5px;color:#f0ce80;font-size:20px;word-break:break-word}
-.list{display:grid;gap:9px;margin-top:12px}
-.item{border:1px solid #ffffff12;border-radius:15px;padding:13px;background:#111114}
-.item-head{display:flex;justify-content:space-between;gap:8px}
-.item b{font-size:14px}.muted{color:#9e9890;font-size:10px;line-height:1.6}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
-button{font:inherit;cursor:pointer;border-radius:11px;padding:10px 12px;font-weight:700}
-.gold{border:0;background:linear-gradient(135deg,#edcc7c,#b78334);color:#1d160c}
-.danger{border:1px solid #7c3c3c;background:#351b1b;color:#ffb0b0}
-.ghost{border:1px solid #ffffff18;background:#ffffff08;color:#ddd}
-button:disabled{opacity:.45;cursor:not-allowed}
-.hidden{display:none}
-.empty{text-align:center;color:#9e9890;padding:25px 5px}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at 50% -10%,#44341f,#0b0b0d 62%);
+  color:#f6f0e6;
+  font-family:'Noto Sans Khmer',system-ui,sans-serif
+}
+
+.app{
+  width:min(760px,100%);
+  margin:auto;
+  padding:18px 12px 50px
+}
+
+.top,.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px
+}
+
+.top{
+  border-bottom:1px solid #ffffff12;
+  padding:5px 0 16px;
+  margin-bottom:14px
+}
+
+.eyebrow{
+  color:#f0ce80;
+  font-size:10px;
+  letter-spacing:1.5px;
+  font-weight:800
+}
+
+h1{font-size:28px;margin:5px 0}
+h2{font-size:21px;margin:5px 0}
+
+p{
+  color:#aaa4a0;
+  line-height:1.7
+}
+
+.card{
+  background:#17171a;
+  border:1px solid #ffffff14;
+  border-radius:19px;
+  padding:18px;
+  margin-bottom:10px;
+  box-shadow:0 15px 35px #0005
+}
+
+.login-card{
+  max-width:520px;
+  margin:25px auto
+}
+
+label{
+  display:block;
+  color:#cfc8be;
+  font-size:13px;
+  font-weight:700;
+  margin:13px 0 6px
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ffffff18;
+  outline:none;
+  background:#101014;
+  color:#fff;
+  font:inherit;
+  font-size:15px
+}
+
+input:focus{
+  border-color:#e8c46f;
+  box-shadow:0 0 0 2px #e8c46f22
+}
+
+button{
+  font:inherit;
+  cursor:pointer;
+  border-radius:11px;
+  padding:11px 14px;
+  font-weight:700
+}
+
+.full{
+  width:100%;
+  margin-top:14px
+}
+
+.gold{
+  border:0;
+  background:linear-gradient(135deg,#edcc7c,#b78334);
+  color:#1d160c
+}
+
+.google{
+  border:1px solid #ffffff18;
+  background:#f7f7f7;
+  color:#202124
+}
+
+.ghost{
+  border:1px solid #ffffff18;
+  background:#ffffff08;
+  color:#ddd
+}
+
+.danger{
+  border:1px solid #7c3c3c;
+  background:#351b1b;
+  color:#ffb0b0
+}
+
+.or{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#777;
+  margin:18px 0 0
+}
+
+.or:before,.or:after{
+  content:"";
+  height:1px;
+  background:#ffffff12;
+  flex:1
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
+
+.stats .card{margin:0}
+
+.stats small{
+  display:block;
+  color:#9e9890;
+  font-size:10px
+}
+
+.stats b{
+  display:block;
+  margin-top:5px;
+  color:#f0ce80;
+  font-size:20px;
+  word-break:break-word
+}
+
+.list{
+  display:grid;
+  gap:9px;
+  margin-top:12px
+}
+
+.item{
+  border:1px solid #ffffff12;
+  border-radius:15px;
+  padding:13px;
+  background:#111114
+}
+
+.item-head{
+  display:flex;
+  justify-content:space-between;
+  gap:8px
+}
+
+.item b{font-size:14px}
+
+.muted{
+  color:#9e9890;
+  font-size:10px;
+  line-height:1.7;
+  margin-top:7px
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:10px
+}
+
+button:disabled{
+  opacity:.45;
+  cursor:not-allowed
+}
+
+.hidden{display:none!important}
+
+.empty{
+  text-align:center;
+  color:#9e9890;
+  padding:25px 5px
+}
+
+@media(max-width:480px){
+  h1{font-size:25px}
+  .row{align-items:flex-start}
+  .row .gold{white-space:nowrap}
+}

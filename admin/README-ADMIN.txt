@@ -1,32 +1,26 @@
-KHMER GAME — ADMIN TOP UP V1
+KHMER GAME — ADMIN
 
-Files:
-- admin.html
-- admin.css
-- admin.js
-- firestore-rules-admin.txt
+1. Put these files inside:
+   admin/
 
-1) Upload the 3 admin files to the ROOT of GitHub.
-2) Open admin.js and replace:
-   YOUR_ADMIN_EMAIL
-   with the exact email used by your Firebase Admin account.
-3) In Firebase Firestore > Rules, use firestore-rules-admin.txt.
-   Replace YOUR_ADMIN_EMAIL there with the same email.
-4) Publish Rules.
-5) Open:
-   https://longkor086-afk.github.io/-/admin.html
+2. Required files:
+   admin.html
+   admin.js
+   admin.css
 
-Security:
-- Normal users cannot approve/reject transactions.
-- Normal users cannot change their own Coins.
-- Approve uses a Firestore transaction to update User Coins + Transaction status together.
-- A transaction that is no longer pending cannot be approved twice.
+3. Open:
+   https://longkor086-afk.github.io/-/admin/admin.html
 
-NOTE:
-This Admin Panel does NOT prove a real payment yet. Payment verification must be connected before production use.
+4. Admin email configured:
+   longkor168@gmail.com
 
+5. Email/password login requires that this email already exists in
+   Firebase Authentication.
 
-V2 FIX:
-- admin.html now loads ../firebase-config.js
-- admin.js no longer blocks the configured admin email
-- Firestore rules use the configured admin email
+6. Google Login requires Google provider to be enabled in:
+   Firebase Console > Authentication > Sign-in method.
+
+IMPORTANT:
+The Admin email check in JavaScript is only a UI restriction.
+For production security, Firestore Rules must also restrict admin writes
+using a proper admin role/custom claim or another server-side authorization.

@@ -14,12 +14,28 @@
       <span class="eyebrow">KHMER GAME</span>
       <h1>🛠️ Admin Panel</h1>
     </div>
-    <button id="logoutBtn" class="ghost">ចាកចេញ</button>
+    <button id="logoutBtn" class="ghost hidden">ចាកចេញ</button>
   </header>
 
-  <section id="loginState" class="card">
-    <h2>🔐 កំពុងពិនិត្យសិទ្ធិ</h2>
-    <p id="loginMsg">សូមរង់ចាំ...</p>
+  <section id="loginState" class="card login-card">
+    <span class="eyebrow">ADMIN LOGIN</span>
+    <h2>🔐 ចូលប្រព័ន្ធ Admin</h2>
+    <p id="loginMsg">សូម Login ដើម្បីបន្ត</p>
+
+    <form id="loginForm">
+      <label>Email</label>
+      <input id="email" type="email" autocomplete="username"
+             placeholder="Admin email" required>
+
+      <label>Password</label>
+      <input id="password" type="password" autocomplete="current-password"
+             placeholder="Password" required>
+
+      <button type="submit" class="gold full">🔐 Login</button>
+    </form>
+
+    <div class="or"><span>ឬ</span></div>
+    <button id="googleBtn" class="google full">🔵 Login with Google</button>
   </section>
 
   <section id="adminState" class="hidden">
@@ -44,7 +60,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-<script src="../firebase-config.js?v=4"></script>
-<script src="admin.js?v=1"></script>
+<script src="../firebase-config.js?v=5"></script>
+<script src="admin.js?v=5"></script>
 </body>
 </html>
