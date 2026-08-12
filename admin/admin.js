@@ -1,7 +1,7 @@
 /* KHMER GAME — Admin Top Up Panel V1
    Change ONLY ADMIN_EMAIL to the email used by your admin Firebase account.
 */
-const ADMIN_EMAIL = "longkor168@gmail.com";
+const ADMIN_EMAIL = "YOUR_ADMIN_EMAIL";
 
 let auth, db, unsubscribe;
 
@@ -128,7 +128,7 @@ async function init(){
       showLogin("សូម Login ជាមួយ Admin account មុន។");
       return;
     }
-    if(ADMIN_EMAIL === "longkor168@gmail.com"){
+    if(ADMIN_EMAIL === "YOUR_ADMIN_EMAIL"){
       showLogin("ត្រូវកំណត់ ADMIN_EMAIL ក្នុង admin.js ជាមុន។");
       return;
     }

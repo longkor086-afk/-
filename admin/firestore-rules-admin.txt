@@ -4,12 +4,12 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     /* IMPORTANT:
-       Replace YOUR_ADMIN_EMAIL with the exact email of your Admin Firebase account.
+       Admin email is configured for the Firebase Admin account.
        Do not give this email/password to other people.
     */
     function isAdmin() {
       return request.auth != null
-        && request.auth.token.email == "YOUR_ADMIN_EMAIL";
+        && request.auth.token.email == "longkor168@gmail.com";
     }
 
     match /users/{userId} {

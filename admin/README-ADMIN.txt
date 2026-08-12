@@ -24,3 +24,9 @@ Security:
 
 NOTE:
 This Admin Panel does NOT prove a real payment yet. Payment verification must be connected before production use.
+
+
+V2 FIX:
+- admin.html now loads ../firebase-config.js
+- admin.js no longer blocks the configured admin email
+- Firestore rules use the configured admin email
