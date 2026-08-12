@@ -1,29 +1,24 @@
-KHMER GAME — TRANSACTION HISTORY
+KHMER GAME — MESSAGES HISTORY
 
-This ZIP adds User Transaction History without changing the existing
-Top Up/Admin files.
+This ZIP contains:
+- messages-history.js
+- messages-history.css
 
-Files:
-- transaction-history.js
-- transaction-history.css
-- README.txt
+Purpose:
+Move Top Up transaction history into a Messages modal instead of showing
+a large history card directly inside Profile.
 
-Install:
-1. Upload transaction-history.js and transaction-history.css to the ROOT
-   of your GitHub repository.
-2. In the page where you want the history, add:
-   <link rel="stylesheet" href="transaction-history.css?v=1">
-   before </head>
-3. Add this where you want the history card:
-   <section class="history-card">
-     <h2>🧾 ប្រវត្តិ Top Up</h2>
-     <p class="history-sub">ប្រវត្តិការទិញ Coins របស់អ្នក</p>
-     <div id="transactionHistory" class="tx-list"></div>
-   </section>
-4. Add transaction-history.js AFTER firebase-config.js and Firebase
-   Auth/Firestore scripts.
+The history displays:
+- Coins
+- Amount
+- Pending / Approved / Rejected
+- Date/time
+- Package ID
+- Transaction ID
 
-The script reads only the signed-in user's transactions.
-It displays pending, approved and rejected statuses.
-No Firestore Rules change is required because the existing rules already
-allow a user to read their own transactions.
+It also supports a small pending-count badge.
+
+IMPORTANT:
+This ZIP does not replace index.html yet.
+The next step is to merge these files into your full index.html so the
+existing game, betting, coins and profile UI are preserved.
