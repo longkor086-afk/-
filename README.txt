@@ -1,1 +1,9 @@
-KHMER GAME V2 — Upload auth.js, account.js, firestore-rules.txt with your existing project. Keep index.html/style.css/firebase-config.js and game folders. Publish the rules in Firebase Console; the txt file is only a backup. Top Up payment is not live yet and coins are not added client-side.
+KHMER GAME — TOP UP V1
+
+Upload topup.js to the ROOT of GitHub.
+
+Then in index.html, immediately before </body>, add:
+<script src="topup.js?v=1"></script>
+
+This version only creates a Firestore transaction with status=pending.
+It never adds coins on the client and does not process real payment yet.
