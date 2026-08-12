@@ -1,24 +1,25 @@
-KHMER GAME — MESSAGES HISTORY
+KHMER GAME — FULL INDEX UPDATE
 
 This ZIP contains:
+- index.html (full uploaded version, updated)
 - messages-history.js
 - messages-history.css
+- README.txt
 
-Purpose:
-Move Top Up transaction history into a Messages modal instead of showing
-a large history card directly inside Profile.
+Changes:
+1. Added 🪙 Coins display beside Profile.
+2. Added 🏆 Rank display beside Profile.
+3. Added 💬 Messages button beside Profile.
+4. Added pending message badge.
+5. Added Top Up transaction history inside Messages.
+6. History is real-time and shows pending/approved/rejected.
+7. Added headerCoinsValue so the existing betting UI can read the
+   current user Coins.
+8. Existing game pages, ranking, profile, betting UI, Firebase scripts,
+   Top Up script and auth flow from the uploaded index.html are preserved.
 
-The history displays:
-- Coins
-- Amount
-- Pending / Approved / Rejected
-- Date/time
-- Package ID
-- Transaction ID
+Install:
+Replace your current index.html with this index.html and upload the two
+messages-history files to the same root folder.
 
-It also supports a small pending-count badge.
-
-IMPORTANT:
-This ZIP does not replace index.html yet.
-The next step is to merge these files into your full index.html so the
-existing game, betting, coins and profile UI are preserved.
+Do not delete Firebase Rules or Admin files.

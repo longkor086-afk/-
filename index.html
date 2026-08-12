@@ -2,11 +2,41 @@
 <html lang="km"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#0b0b0d"><title>ខ្មែរហ្គេម</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="messages-history.css?v=1">
 <style>
 .cg-list{display:grid;gap:8px;margin:12px 0}.cg-card{width:100%;display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);background:#ffffff06;color:var(--text);border-radius:15px;text-align:left}.cg-card>span{font-size:22px}.cg-card div{flex:1}.cg-card b{display:block;font-size:13px}.cg-card small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.cg-card i{font-style:normal;color:var(--gold2);font-size:22px}.full-btn{width:100%;margin-top:10px}.stake-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.stake-summary div{border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}.stake-summary span{display:block;color:var(--muted);font-size:8px}.stake-summary b{font-size:11px;color:var(--gold2)}
+
+<style>
+.header-tools{display:flex;align-items:center;gap:5px}
+.header-stat{position:relative;min-width:48px;padding:5px 6px;border:1px solid var(--line);border-radius:12px;background:#ffffff06;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;cursor:pointer}
+.header-stat>span{font-size:13px}
+.header-stat>b{font-size:9px;color:var(--gold2);margin-top:2px;max-width:58px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.header-stat>small{font-size:6px;color:var(--muted);margin-top:2px}
+.avatar-btn{flex:0 0 auto}
+@media(max-width:430px){
+  .header-tools{gap:3px}
+  .header-stat{min-width:40px;padding:4px 4px}
+  .header-stat>span{font-size:12px}
+  .header-stat>b{font-size:8px}
+  .header-stat>small{font-size:5px}
+}
+</style>
 </style></head><body><div class="app">
-<header class="topbar"><div class="brand" onclick="showPage('home')"><div class="brand-logo">♟</div><div><b>ខ្មែរហ្គេម</b><small>ល្បែងកម្សាន្តខ្មែរ</small></div></div><button class="avatar-btn" onclick="showPage('profile')">👤</button></header>
+<header class="topbar">
+<div class="brand" onclick="showPage('home')"><div class="brand-logo">♟</div><div><b>ខ្មែរហ្គេម</b><small>ល្បែងកម្សាន្តខ្មែរ</small></div></div>
+<div class="header-tools">
+  <button class="header-stat" onclick="showPage('profile')" title="Coins">
+    <span>🪙</span><b id="headerCoinsValue">0</b><small>Coins</small>
+  </button>
+  <button class="header-stat" onclick="showPage('ranking')" title="ចំណាត់ថ្នាក់">
+    <span>🏆</span><b id="headerRankValue">#--</b><small>Rank</small>
+  </button>
+  <button class="header-stat messages-button" onclick="openMessagesHistory()" title="សារ">
+    <span>💬</span><b id="messagesBadge" class="messages-badge"></b><small>សារ</small>
+  </button>
+  <button class="avatar-btn" onclick="showPage('profile')">👤</button>
+</div>
+</header>
 <main>
 <section id="page-home" class="page active"><div class="hero"><span class="eyebrow">WELCOME TO KHMER GAME</span><h1>លេង • ប្រកួត • ឡើងចំណាត់ថ្នាក់</h1><p>ល្បែងខ្មែរប្រពៃណី និងហ្គេមថ្មីៗ នៅក្នុងកម្មវិធីតែមួយ។</p><button class="primary-btn" onclick="showPage('online')">🌐 ចូលលេង Online</button></div><div class="section-title"><div><span>GAME LIBRARY</span><h2>ហ្គេម</h2></div></div><div class="games">
 <button class="game-card gold" onclick="location.href='?game=lerak'"><div class="game-icon">🛡️</div><div><b>រែក</b><small>រែកធម្មតា • រែកព័ទ្ធ</small></div><i>›</i></button>
@@ -29,8 +59,67 @@
 <div class="card-panel"><button class="primary-btn" onclick="logout()">🚪 ចាកចេញ</button></div></div></section>
 </main>
 <nav class="bottom-nav"><button class="active" data-page="home" onclick="showPage('home')">⌂<small>ទំព័រដើម</small></button><button data-page="online" onclick="showPage('online')">⚔<small>Online</small></button><button data-page="ranking" onclick="showPage('ranking')">🏆<small>ចំណាត់ថ្នាក់</small></button><button data-page="profile" onclick="showPage('profile')">👤<small>Profile</small></button></nav>
-<div id="modal" class="modal"><div class="modal-box"><button class="close" onclick="closeModal()">×</button><div id="modal-content"></div></div></div></div>
+<div id="modal" class="modal"><div class="modal-box"><button class="close" onclick="closeModal()">×</button><div id="modal-content"></div></div></div>
+<div id="messagesModal" class="messages-modal" aria-hidden="true">
+  <div class="messages-panel">
+    <div class="messages-panel-head">
+      <div><span class="eyebrow">MESSAGES</span><h2>💬 សារ & ប្រវត្តិ Top Up</h2></div>
+      <button class="messages-close" onclick="closeMessagesHistory()" aria-label="Close">×</button>
+    </div>
+    <div id="messagesHistory" class="messages-history"></div>
+  </div>
+</div></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script><script src="firebase-config.js?v=3"></script><script src="auth.js?v=3"></script>
+<script src="messages-history.js?v=1"></script>
+<script>
+(function(){
+  function setHeaderCoins(n){
+    const el = document.getElementById("headerCoinsValue");
+    if(el) el.textContent = Number(n || 0).toLocaleString();
+  }
+
+  function setHeaderRank(points){
+    const el = document.getElementById("headerRankValue");
+    if(!el) return;
+    const p = Number(points || 0);
+    // Rank label is based on the project's existing points scale.
+    let rank = "Bronze";
+    if(p >= 200) rank = "Diamond";
+    else if(p >= 150) rank = "Platinum";
+    else if(p >= 100) rank = "Gold";
+    else if(p >= 50) rank = "Silver";
+    el.textContent = rank;
+  }
+
+  function watchHeaderUser(){
+    if(!window.firebase || !firebase.auth || !firebase.firestore) return;
+
+    firebase.auth().onAuthStateChanged(function(user){
+      if(!user){
+        setHeaderCoins(0);
+        setHeaderRank(0);
+        return;
+      }
+
+      firebase.firestore().collection("users").doc(user.uid).onSnapshot(function(snap){
+        if(!snap.exists){
+          setHeaderCoins(0);
+          setHeaderRank(0);
+          return;
+        }
+        const d = snap.data() || {};
+        setHeaderCoins(d.coins);
+        setHeaderRank(d.points);
+      }, function(err){
+        console.error("Header user sync:", err);
+      });
+    });
+  }
+
+  // Firebase/Auth are loaded immediately before this script.
+  watchHeaderUser();
+})();
+</script>
 <script>
 const ranks=[['🥇','Khmer King',245,82],['🥈','Angkor Player',238,79],['🥉','Sovann Game',231,74],['4','Khmer Warrior',220,69],['5','Mekong',214,65],['6','Player KH',207,62]];
 const packs=[[10000,'$0.99'],[50000,'$4.50'],[100000,'$8.99'],[500000,'$30.99']];
