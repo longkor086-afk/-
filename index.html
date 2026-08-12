@@ -6,8 +6,46 @@
 <style>
 .cg-list{display:grid;gap:8px;margin:12px 0}.cg-card{width:100%;display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);background:#ffffff06;color:var(--text);border-radius:15px;text-align:left}.cg-card>span{font-size:22px}.cg-card div{flex:1}.cg-card b{display:block;font-size:13px}.cg-card small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.cg-card i{font-style:normal;color:var(--gold2);font-size:22px}.full-btn{width:100%;margin-top:10px}.stake-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.stake-summary div{border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}.stake-summary span{display:block;color:var(--muted);font-size:8px}.stake-summary b{font-size:11px;color:var(--gold2)}
 
+
+</style><style>
+.header-tools{display:flex;align-items:center;gap:6px;margin-left:auto}
+.header-stat{position:relative;width:58px;height:42px;padding:3px 4px;border:1px solid var(--line);border-radius:12px;background:#ffffff07;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;cursor:pointer;box-sizing:border-box}
+.header-stat>span{font-size:12px;line-height:12px}
+.header-stat>b{font-size:9px;color:var(--gold2);margin-top:2px;max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.header-stat>small{font-size:6px;color:var(--muted);margin-top:2px}
+.header-stat:active{transform:scale(.96)}
+.messages-button .messages-badge{position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;padding:0 4px;display:none;align-items:center;justify-content:center;border-radius:99px;background:#e35b5b;color:#fff;font-size:8px;font-weight:800;border:2px solid #0b0b0d}
+@media(max-width:520px){
+  .header-tools{gap:4px}
+  .header-stat{width:48px;height:40px}
+  .header-stat>span{font-size:11px}
+  .header-stat>b{font-size:8px;max-width:44px}
+  .header-stat>small{font-size:5px}
+}
+@media(max-width:390px){
+  .header-tools{gap:2px}
+  .header-stat{width:43px}
+  .header-stat>small{display:none}
+}
 </style></head><body><div class="app">
-<header class="topbar"><div class="brand" onclick="showPage('home')"><div class="brand-logo">♟</div><div><b>ខ្មែរហ្គេម</b><small>ល្បែងកម្សាន្តខ្មែរ</small></div></div><button class="avatar-btn" onclick="showPage('profile')">👤</button></header>
+<header class="topbar">
+  <div class="brand" onclick="showPage('home')">
+    <div class="brand-logo">♟</div>
+    <div><b>ខ្មែរហ្គេម</b><small>ល្បែងកម្សាន្តខ្មែរ</small></div>
+  </div>
+  <div class="header-tools">
+    <button class="header-stat coin-stat" onclick="showPage('profile')" title="Coins">
+      <span>🪙</span><b id="headerCoinsValue">0</b><small>Coins</small>
+    </button>
+    <button class="header-stat rank-stat" onclick="showPage('ranking')" title="ចំណាត់ថ្នាក់">
+      <span>🏆</span><b id="headerRankValue">#--</b><small>Rank</small>
+    </button>
+    <button class="header-stat message-stat messages-button" onclick="openMessagesHistory()" title="សារ">
+      <span>💬</span><b id="messagesBadge" class="messages-badge"></b><small>សារ</small>
+    </button>
+    <button class="avatar-btn" onclick="showPage('profile')">👤</button>
+  </div>
+</header>
 <main>
 <section id="page-home" class="page active"><div class="hero"><span class="eyebrow">WELCOME TO KHMER GAME</span><h1>លេង • ប្រកួត • ឡើងចំណាត់ថ្នាក់</h1><p>ល្បែងខ្មែរប្រពៃណី និងហ្គេមថ្មីៗ នៅក្នុងកម្មវិធីតែមួយ។</p><button class="primary-btn" onclick="showPage('online')">🌐 ចូលលេង Online</button></div><div class="section-title"><div><span>GAME LIBRARY</span><h2>ហ្គេម</h2></div></div><div class="games">
 <button class="game-card gold" onclick="location.href='?game=lerak'"><div class="game-icon">🛡️</div><div><b>រែក</b><small>រែកធម្មតា • រែកព័ទ្ធ</small></div><i>›</i></button>
@@ -41,7 +79,7 @@
   </div>
 </div></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script><script src="firebase-config.js?v=3"></script><script src="auth.js?v=3"></script>
-<script src="messages-history.js?v=1"></script>
+<script src="messages-history.js?v=2"></script>
 <script>
 (function(){
   function setHeaderCoins(n){
