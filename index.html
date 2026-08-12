@@ -47,4 +47,6 @@ function openBetting(mode){const u=window.khmerGameAuth?.getUser?.();if(!u){moda
 function selectStake(a){const s=stakes.find(x=>x[0]===a),raw=document.getElementById('headerCoinsValue')?.textContent||'0',bal=Number(raw.replace(/,/g,''))||0,ok=bal>=a;modal(`<h2>🪙 ${fmt(a)} Coins</h2><div class="stake-summary"><div><span>ភ្នាល់</span><b>${fmt(a)}</b></div><div><span>ឈ្នះទទួល</span><b>${fmt(s[1])}</b></div><div><span>សេវា</span><b>${fmt(s[2])}</b></div></div><p>Coins របស់អ្នក៖ <b>${fmt(bal)}</b></p><div class="notice"><b>${ok?'✅ Coins គ្រប់គ្រាន់':'❌ Coins មិនគ្រប់'}</b><p>${ok?'Stake នឹងត្រូវ Lock ពេល Server Online រួច។':'សូមបន្ថែម Coins។'}</p></div><button class="primary-btn full-btn" onclick="${ok?'closeModal()':'openShop()'}">${ok?'បន្ត':'🪙 បន្ថែម Coins'}</button>`)}
 async function logout(){try{if(window.khmerGameAuth?.auth)await window.khmerGameAuth.auth.signOut();showPage('profile')}catch(e){alert('មិនអាចចាកចេញបានទេ។')}}
 render();
-</script></body></html>
+</scr</script>
+<script src="topup.js?v=1"></script>
+</body></html>
