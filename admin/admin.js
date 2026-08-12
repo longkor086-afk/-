@@ -1,4 +1,4 @@
-/* KHMER GAME — Admin Panel */
+/* KHMER GAME — Admin Panel — FIXED */
 const ADMIN_EMAIL = "longkor168@gmail.com";
 
 let auth = null;
@@ -16,7 +16,7 @@ function coins(n) {
 }
 
 function esc(v) {
-  return String(v ?? "").replace(/[&<>"']/g, c => ({
+  return String(v ?? "").replace(/[&<>\"']/g, c => ({
     "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
   }[c]));
 }
@@ -108,6 +108,10 @@ async function approve(id) {
         throw new Error("Transaction នេះត្រូវបានដំណើរការរួចហើយ។");
       }
 
+      if (t.type !== "topup") {
+        throw new Error("Transaction ប្រភេទមិនត្រឹមត្រូវ។");
+      }
+
       const userRef = db.collection("users").doc(t.userId);
       const userSnap = await tx.get(userRef);
 
@@ -157,14 +161,22 @@ window.reject = reject;
 
 function render(docs) {
   const box = $("requests");
-  $("pendingCount").textContent = docs.length;
 
-  if (!docs.length) {
+  // Filter in JavaScript instead of Firestore composite query.
+  // This avoids requiring a composite index for type + status.
+  const topups = docs.filter(s => {
+    const d = s.data();
+    return d.type === "topup";
+  });
+
+  $("pendingCount").textContent = topups.length;
+
+  if (!topups.length) {
     box.innerHTML = '<div class="empty">🎉 មិនមាន Pending Top Up ទេ</div>';
     return;
   }
 
-  box.innerHTML = docs.map(s => {
+  box.innerHTML = topups.map(s => {
     const d = s.data();
 
     return `<article class="item">
@@ -191,15 +203,15 @@ function render(docs) {
 function watchRequests() {
   if (unsubscribe) unsubscribe();
 
+  // Only one where() condition -> no composite index needed.
   unsubscribe = db.collection("transactions")
-    .where("type", "==", "topup")
     .where("status", "==", "pending")
     .onSnapshot(
       snap => render(snap.docs),
       err => {
         console.error(err);
         $("requests").innerHTML =
-          '<div class="empty">❌ មិនអាចអាន Transactions បាន។ សូមពិនិត្យ Firebase Rules/Index។</div>';
+          '<div class="empty">❌ មិនអាចអាន Transactions បាន។ សូមពិនិត្យ Firebase Rules/ការភ្ជាប់ Firebase។</div>';
       }
     );
 }
