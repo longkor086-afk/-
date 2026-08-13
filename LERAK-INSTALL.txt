@@ -1,0 +1,15 @@
+KHMER GAME — Lerak Real Wood V3
+
+This ZIP contains the corrected:
+lerak-realwood.js
+
+IMPORTANT:
+Replace the existing root file:
+lerak-realwood.js
+
+The fix matches the current game.js classes:
+.piece.white
+.piece.black
+
+Do not rename the file.
+After uploading to GitHub, refresh the site with a hard refresh.
