@@ -1,0 +1,36 @@
+LERAK REAL WOOD V5 — FIX PACKAGE
+=================================
+
+This ZIP fixes the Lerak visual layer only.
+
+What changed:
+- Reference-style wooden 8x8 board
+- Light/dark wooden squares
+- Smaller glossy 3D wooden discs
+- White and black pieces clearly separated
+- King pieces show ♔ / ♚
+- Better selected/move/capture indicators
+- Compact mobile sizing
+- Keeps the existing game rules, 3:00 + 2s clock and 30-second Bot fallback
+
+FILES
+-----
+lerak-realwood.css
+lerak-realwood.js
+
+INSTALL
+-------
+1. Open your GitHub repository.
+2. Replace the existing:
+   - lerak-realwood.css
+   - lerak-realwood.js
+3. Do NOT delete or replace game.js.
+4. Commit the changes.
+5. Open the website and hard-refresh/reload the page.
+
+IMPORTANT
+---------
+The V5 JS loads the CSS after game.js so the old injected style cannot
+override the new wood design.
+
+No game-rule logic was intentionally changed in this package.
