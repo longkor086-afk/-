@@ -1,19 +1,22 @@
-KHMER GAME — REAL WOOD V2
-===========================
+LERAK PREMIUM WOOD V4
+=======================
 
-This patch replaces the flat/black disc look in Lerak with a carved-wood style:
-- wood-grain board
-- light beech pieces for white
-- dark walnut pieces for black
-- raised 3D/cylindrical rim
-- carved top-face highlights and grain
-- lifted selected piece
-- wooden legal-move/capture markers
+This package changes the VISUAL DESIGN of the existing Lerak game.
 
-Install:
-1. Upload lerak-realwood.css and lerak-realwood.js to the repository root.
-2. In the page, after game-ui-fix.js, load:
-   <script src="lerak-realwood.js?v=2"></script>
+Files:
+- lerak-realwood.css  -> replace the existing file
+- lerak-realwood.js   -> replace the existing file
 
-If you already use the generated game-ui-fix.js from V3, keep it.
-Do not remove game.js or the existing timer/matchmaking files.
+The existing game.js is intentionally not replaced.
+Rules, 3:00 + 2s clock, 30-second bot fallback, opening phase,
+normal/surround modes and move logic remain in game.js.
+
+The new design gives:
+- warm real-wood board/frame
+- light and dark wooden pieces
+- stronger 3D depth and shadows
+- gold selected/active states
+- clearer legal-move and capture markers
+- premium timer cards
+- king ♔ / ♚ emblems
+- better mobile sizing
