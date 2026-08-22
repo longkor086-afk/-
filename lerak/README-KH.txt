@@ -28,3 +28,11 @@ Graphics:
 
 ចំណាំ:
 កំណែនេះជាការលេង local + Bot fallback។ Online matchmaking ពិតត្រូវភ្ជាប់ Firebase/backend បន្ថែម។
+
+
+2D WOOD CHECKER GRAPHICS
+- ក្រឡាស = ឈើពណ៌ស/ក្រែម 2D
+- ក្រឡាខ្មៅ = ឈើពណ៌ត្នោតចាស់ 2D
+- កូនស = ឈើពណ៌ស 2D
+- កូនខ្មៅ = ឈើពណ៌ខ្មៅ/ត្នោត 2D
+- មិនបានប្តូរ game rules និង lerak.js ទេ។
