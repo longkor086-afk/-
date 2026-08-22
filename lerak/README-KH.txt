@@ -1,24 +1,30 @@
-LERAK V2 — Khmer Game
+LERAK — OLD RULES FIX
 
-អ្វីដែលបានកែ:
-1. ប្តូរពីច្បាប់ Checkers/diagonal ទៅច្បាប់ Rek:
-   - ក្តារ 8x8 មិនប្រើតែ dark squares
-   - 16 កូនក្នុងមួយភាគី: ស្តេច 1 + កូន 15
-   - កូនទាំងអស់ដើរត្រង់ផ្ដេក/បញ្ឈរ ដូច Rook
-   - រែក (intervention): ចូលចន្លោះកូនសត្រូវ 2 ដែលនៅជាប់គ្នា
-   - ហ៊ុំព័ទ្ធ (modified custodian): ក្រុមសត្រូវដែលគ្មានចលនាត្រូវបានចាប់
-   - គោលដៅគឺចាប់ស្តេច
+កំណែនេះត្រូវបានធ្វើឡើងវិញដោយយក RULE LOGIC ពី game.js ចាស់របស់គម្រោង
+មុនពេល game.js ត្រូវបានលុបចេញពី GitHub។
 
-2. Graphics:
-   - ក្តារឈើ light/dark មាន wood-grain
-   - កូនស/ខ្មៅមាន 3D gradient + shadow
-   - ស្តេចមានសញ្ញាមកុដ
-   - highlight សម្រាប់ move / រែក / ហ៊ុំព័ទ្ធ
+ច្បាប់ដែលរក្សាវិញ:
+- មាន 2 modes: រែកធម្មតា និង រែកព័ទ្ធ
+- Opening: ជ្រើសកូនទ័ព 2 នៅជួរមុខ ដែលរំលងគ្នា 1 ក្រឡា ហើយចេញមុខ 1 ក្រឡា
+- រែកធម្មតា: កូនដើរត្រង់ 4 ទិស; ស្តេចមិនអាចដើរ
+- Capture: ចូលក្រឡាដែលមានសត្រូវ 2 នៅសងខាង → ចាប់ 2
+- Normal win: កូនទ័ពសត្រូវអស់ ឬស្តេចត្រូវរែក
+- Surround: បន្ថែម group/liberty capture និងស្តេចក្នុងក្រុមអាចត្រូវព័ទ្ធ
+- Optional ហៅរែក flow
+- 3:00 + 2s
+- 30s Bot fallback
 
-3. Timer:
-   - 3:00 + 2 seconds
-   - បន្ថែម +2s ទាំង White និង Black
-   - 30s wait → local Bot fallback
+Graphics:
+- Wooden board មាន grain
+- Wooden/3D-looking white & black pieces
+- King មាន crown
+- Highlight សម្រាប់ opening, move, capture
 
-IMPORTANT:
-កូដនេះជាកំណែ standalone សម្រាប់ game screen។ Online human-vs-human matchmaking មិនទាន់មាន backend នៅក្នុង package នេះ។
+របៀបដាក់:
+1. លុប/ជំនួស file ចាស់ក្នុង folder game ដែលអ្នកប្រើ។
+2. ដាក់ index.html + lerak.css + lerak.js ជាមួយគ្នា។
+3. Reload GitHub Pages ហើយ Hard Refresh។
+4. បើ browser នៅបង្ហាញ version ចាស់ សូមបិទ tab ហើយបើក site ម្តងទៀត។
+
+ចំណាំ:
+កំណែនេះជាការលេង local + Bot fallback។ Online matchmaking ពិតត្រូវភ្ជាប់ Firebase/backend បន្ថែម។
