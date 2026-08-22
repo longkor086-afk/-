@@ -14,81 +14,46 @@
   <div class="title"><b>រែក</b><span>KHMER GAME</span></div>
   <button class="round-btn" onclick="showRules()">?</button>
 </header>
-
 <section id="modeMenu" class="mode-menu">
-  <div class="hero">
-    <div class="eyebrow">KHMER BOARD GAME</div>
-    <h1>រែក</h1>
-    <p>ជ្រើសរើសរបៀបលេងដែលអ្នកចង់លេង</p>
-  </div>
-  <button class="mode-card" onclick="startGameMode('normal')">
-    <span class="mode-icon">◉</span>
-    <span><b>រែកធម្មតា</b><small>រែកកូនដោយដាក់ចន្លោះកូនសត្រូវ</small></span>
-    <strong>›</strong>
-  </button>
-  <button class="mode-card" onclick="startGameMode('surround')">
-    <span class="mode-icon">◎</span>
-    <span><b>រែកព័ទ្ធ</b><small>មានការព័ទ្ធក្រុមកូនបន្ថែម</small></span>
-    <strong>›</strong>
-  </button>
+  <div class="hero"><div class="eyebrow">KHMER BOARD GAME</div><h1>រែក</h1><p>ជ្រើសរើសរបៀបលេងដែលអ្នកចង់លេង</p></div>
+  <button class="mode-card" onclick="startGameMode('normal')"><span class="mode-icon">◉</span><span><b>រែកធម្មតា</b><small>រែកកូនដោយដាក់ចន្លោះកូនសត្រូវ</small></span><strong>›</strong></button>
+  <button class="mode-card" onclick="startGameMode('surround')"><span class="mode-icon">◎</span><span><b>រែកព័ទ្ធ</b><small>មានការព័ទ្ធក្រុមកូនបន្ថែម</small></span><strong>›</strong></button>
   <div class="rule-note">ច្បាប់ និងការចេញកូនដំបូងត្រូវរក្សាតាមកំណែចាស់របស់គម្រោង។</div>
 </section>
-
 <section id="gameArea" class="game" hidden>
-  <div class="game-head">
-    <div class="game-name">
-      <span class="eyebrow">KHMER GAME</span>
-      <h2 id="modeTitle">រែក</h2>
-      <small id="modeSub">រែកធម្មតា</small>
-    </div>
-    <button class="back-mode" onclick="backToModes()">‹ របៀបលេង</button>
-  </div>
-
-  <div class="players">
-    <div class="player">
-      <div class="avatar white-piece"></div>
-      <div><b>អ្នក</b><small id="humanSide">ភាគីស</small></div>
-    </div>
-    <div class="vs">VS</div>
-    <div class="player right">
-      <div><div><b>Bot</b><small id="botSide">ភាគីខ្មៅ</small></div><div class="avatar black-piece"></div></div>
-    </div>
-  </div>
-
-  <div class="clocks">
-    <div id="wcBox" class="clock active"><small>⚪ ភាគីស</small><b id="wc">03:00</b></div>
-    <div class="clock-mid">3:00 + 2s</div>
-    <div id="bcBox" class="clock"><small>⚫ ភាគីខ្មៅ</small><b id="bc">03:00</b></div>
-  </div>
-
-  <div id="lerakBotStatus" class="bot-status">🌐 កំពុងរៀបចំការប្រកួត…</div>
-
-  <div class="board-shell">
-    <div class="board-label">ក្តារ រែក</div>
-    <div id="turn" class="turn">ដំណាក់កាលដំបូង</div>
-    <div id="board" class="board"></div>
-    <div id="message" class="message">—</div>
-    <div id="actions"></div>
-    <div class="legend">
-      <span><i class="move-dot"></i> អាចដើរ</span>
-      <span><i class="capture-dot"></i> រែក</span>
-      <span><i class="surround-dot"></i> ព័ទ្ធ</span>
-    </div>
-  </div>
-
-  <div class="bottom-actions">
-    <button class="secondary" id="restart">↻ លេងថ្មី</button>
-    <button class="primary" onclick="showRules()">📖 ច្បាប់</button>
+  <div class="game-head"><div class="game-name"><span class="eyebrow">KHMER GAME</span><h2 id="modeTitle">រែក</h2><small id="modeSub">រែកធម្មតា</small></div><button class="back-mode" onclick="backToModes()">‹ របៀបលេង</button></div>
+  <div class="game-grid">
+    <main class="board-column">
+      <div class="board-card">
+        <div class="board-label">ក្តារ រែក</div><div id="turn" class="turn">ដំណាក់កាលដំបូង</div>
+        <div id="board" class="board"></div>
+        <div id="message" class="message">—</div>
+        <div id="actions"></div>
+        <div class="legend"><span><i class="move-dot"></i> អាចដើរ</span><span><i class="capture-dot"></i> រែក</span><span><i class="surround-dot"></i> ព័ទ្ធ</span></div>
+      </div>
+      <div class="bottom-actions"><button class="secondary" id="restart">↻ លេងថ្មី</button><button class="primary" onclick="showRules()">📖 ច្បាប់</button></div>
+    </main>
+    <aside class="side-column">
+      <div class="players-card">
+        <div class="side-title">អ្នកលេង</div>
+        <div class="players">
+          <div class="player"><div class="avatar white-piece"></div><div><b>អ្នក</b><small id="humanSide">ភាគីស</small></div></div>
+          <div class="vs">VS</div>
+          <div class="player right"><div><b>Bot</b><small id="botSide">ភាគីខ្មៅ</small></div><div class="avatar black-piece"></div></div>
+        </div>
+        <div class="clocks">
+          <div id="wcBox" class="clock active"><small>⚪ ភាគីស</small><b id="wc">03:00</b></div>
+          <div id="bcBox" class="clock"><small>⚫ ភាគីខ្មៅ</small><b id="bc">03:00</b></div>
+          <div class="clock-mid">3:00 + 2s</div>
+        </div>
+      </div>
+      <div class="status-card"><div id="lerakBotStatus" class="bot-status">🌐 កំពុងរៀបចំការប្រកួត…</div></div>
+      <div class="rules-card"><h3>📖 ច្បាប់សង្ខេប</h3><p>• ចេញកូនដំបូង ២ កូន ដោយរំលង ១ ក្រឡា។</p><p>• រែកធម្មតា៖ កូនសត្រូវ ២ នៅសងខាងត្រូវបានរែក។</p><p>• រែកព័ទ្ធ៖ ក្រុមដែលគ្មានក្រឡាទំនេរត្រូវបានចាប់។</p><p>• ស្តេចត្រូវបានរែក/ព័ទ្ធ = ចប់ការប្រកួត។</p></div>
+    </aside>
   </div>
 </section>
-
-<div id="modal" class="modal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <div id="modalContent"></div>
-  </div>
-</div>
-
+<div id="modal" class="modal"><div class="modal-box"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
 <script src="lerak.js"></script>
+</div>
 </body>
 </html>
