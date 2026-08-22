@@ -1,1 +1,38 @@
-<!doctype html><html lang="km"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>អុកខ្មែរ • 2D Wood</title><link rel="stylesheet" href="ouk.css"></head><body><main class="ouk-app"><header><button>‹</button><div><b>អុក</b><small>KHMER GAME</small></div><button>?</button></header><section class="players"><div class="player"><div class="avatar white">♙</div><b>អ្នក</b><small>ភាគីស</small></div><strong>VS</strong><div class="player"><div class="avatar black">♟</div><b>គូប្រកួត</b><small>ភាគីខ្មៅ</small></div></section><section class="clocks"><div class="clock active">⚪ ភាគីស<strong>03:00</strong></div><div class="clock">⚫ ភាគីខ្មៅ<strong>03:00</strong></div></section><section class="board-wrap"><h2>ក្តារអុកខ្មែរ</h2><div id="board" class="board"></div></section><p class="hint">♟ កូនអុកបែបឈើ 2D • ក្រឡាឈើស និងឈើត្នោតបែងចែកច្បាស់</p></main><script src="ouk.js"></script></body></html>
+<!doctype html>
+<html lang="km">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>អុកខ្មែរ • Ouk Chatrang</title>
+<link rel="stylesheet" href="ouk.css">
+</head>
+<body>
+<main class="ouk-app">
+<header>
+  <button id="backBtn" aria-label="ត្រឡប់">‹</button>
+  <div><b>អុកខ្មែរ</b><small>OUK CHATRANG</small></div>
+  <button id="helpBtn" aria-label="ច្បាប់">?</button>
+</header>
+<section class="players">
+  <div class="player"><div class="avatar white">♔</div><div><b>អ្នក</b><small>ភាគីស</small></div></div>
+  <strong>VS</strong>
+  <div class="player black"><div><b>គូប្រកួត</b><small>ភាគីខ្មៅ</small></div><div class="avatar black">♚</div></div>
+</section>
+<section class="clocks">
+  <div class="clock active">⚪ ភាគីស<strong id="whiteClock">03:00</strong></div>
+  <div class="clock">⚫ ភាគីខ្មៅ<strong id="blackClock">03:00</strong></div>
+</section>
+<div class="rulebar"><span id="turnLabel">វេន ភាគីស</span><small>3:00 + 2s</small></div>
+<section class="board-wrap">
+  <h2>ក្តារអុកខ្មែរ</h2>
+  <div id="board" class="board" aria-label="ក្តារអុក 8x8"></div>
+  <div class="legend"><span>♔ ស្តេច</span><span>♕ នាង</span><span>♗ គូល</span><span>♘ សេះ</span><span>♖ ទូក</span><span>♙ ត្រី</span></div>
+</section>
+<div id="status" class="status">ជ្រើសកូនមួយដើម្បីដើរ</div>
+<section class="controls"><button id="resetBtn">↻ ចាប់ផ្តើមថ្មី</button></section>
+<section class="history-panel"><h3>ប្រវត្តិដំណើរ</h3><div id="history"></div></section>
+<p class="note">អុកខ្មែរ • ច្បាប់ Ouk Chatrang • រចនាបទ 2D សាមញ្ញងាយមើល</p>
+</main>
+<script src="ouk.js"></script>
+</body>
+</html>
