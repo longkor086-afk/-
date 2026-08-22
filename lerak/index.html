@@ -3,45 +3,61 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#2b180d">
-<title>រែក — Khmer Game</title>
+<meta name="theme-color" content="#241208">
+<title>រែក — Khmer Game V2</title>
 <link rel="stylesheet" href="lerak.css">
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <button class="back" onclick="history.back()">‹</button>
-    <div class="title"><b>រែក</b><small>KHMER GAME</small></div>
-    <button class="help" onclick="showRules()">?</button>
-  </header>
-  <main>
-    <section class="match-head">
-      <div class="player"><div class="avatar white">♙</div><div><b>អ្នក</b><small>ភាគីស</small></div></div>
-      <div class="vs">VS</div>
-      <div class="player right"><div class="avatar black">♟</div><div><b>គូប្រកួត</b><small>ភាគីខ្មៅ</small></div></div>
-    </section>
-    <section class="clocks">
-      <div id="clockWhite" class="clock active"><span>⚪ ភាគីស</span><strong>03:00</strong></div>
-      <div class="clock-mode">3:00 + 2s</div>
-      <div id="clockBlack" class="clock"><span>⚫ ភាគីខ្មៅ</span><strong>03:00</strong></div>
-    </section>
-    <section id="gameArea" class="game-wrap">
-      <div id="status" class="status">វេនរបស់អ្នក</div>
-      <div id="board" class="board" aria-label="Lerak board"></div>
-      <div class="turn-note">បង្ខំចាប់កូន ប្រសិនបើមាន • ចុចកូន → ចុចក្រឡាដែលចង់ដាក់</div>
-    </section>
-    <section class="actions">
-      <button class="secondary" onclick="newGame()">↻ ចាប់ផ្តើមថ្មី</button>
-      <button class="primary" onclick="showRules()">📖 ច្បាប់</button>
-    </section>
-  </main>
+<div class="page">
+<header class="top">
+  <button class="iconbtn" onclick="history.back()">‹</button>
+  <div class="brand"><b>រែក</b><span>KHMER GAME</span></div>
+  <button class="iconbtn" onclick="showRules()">?</button>
+</header>
+
+<main>
+  <section class="players">
+    <div class="player">
+      <div class="piece-mini white"></div>
+      <div><b>អ្នក</b><small>ភាគីស</small></div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="player right">
+      <div><div><b>គូប្រកួត</b><small>ភាគីខ្មៅ</small></div><div class="piece-mini black"></div></div>
+    </div>
+  </section>
+
+  <section class="clocks">
+    <div id="clockWhite" class="clock active"><span>⚪ ភាគីស</span><strong>03:00</strong></div>
+    <div class="increment">3:00 + 2s</div>
+    <div id="clockBlack" class="clock"><span>⚫ ភាគីខ្មៅ</span><strong>03:00</strong></div>
+  </section>
+
+  <section class="board-card">
+    <div id="status" class="status">វេនរបស់អ្នក</div>
+    <div id="hint" class="hint">ជ្រើសកូនមួយ ដើម្បីមើលកន្លែងអាចដើរ</div>
+    <div id="board" class="board"></div>
+    <div class="legend">
+      <span><i class="dot move-dot"></i> ដើរ</span>
+      <span><i class="dot rek-dot"></i> រែក</span>
+      <span><i class="dot trap-dot"></i> ហ៊ុំព័ទ្ធ</span>
+    </div>
+  </section>
+
+  <section class="buttons">
+    <button class="secondary" onclick="newGame()">↻ លេងថ្មី</button>
+    <button class="primary" onclick="showRules()">📖 ច្បាប់រែក</button>
+  </section>
+</main>
 </div>
+
 <div id="modal" class="modal">
-  <div class="modal-box">
-    <button class="close" onclick="closeModal()">×</button>
-    <div id="modalContent"></div>
-  </div>
+ <div class="modalbox">
+   <button class="close" onclick="closeModal()">×</button>
+   <div id="modalContent"></div>
+ </div>
 </div>
+
 <script src="lerak-rules.js"></script>
 <script src="lerak-bot.js"></script>
 <script src="lerak.js"></script>
