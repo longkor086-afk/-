@@ -2,53 +2,41 @@
 <html lang="km">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>អុកខ្មែរ • Khmer Ouk</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="ouk.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="game">
-  <div class="topbar">
+<div class="app">
+  <header class="top">
     <div class="wifi">⌁</div>
-    <div class="coins"><span class="coin">◉</span> <b>5200</b><small>P366385</small></div>
-    <div class="avatar top-avatar">●</div>
-  </div>
+    <div class="wallet"><span class="coin">◉</span><b>5200</b><small>P366385</small></div>
+    <div class="avatar">●<span>●</span></div>
+  </header>
 
-  <section class="top-clock-row">
-    <div class="turn-dot white-dot"></div>
-    <div class="top-clock" id="whiteClockTop">29:55</div>
-    <div class="top-clock" id="blackClockTop">--</div>
+  <section class="clockbar">
+    <div class="turn-dot"></div>
+    <div class="clock">02:52</div>
+    <div class="clock">03:00</div>
   </section>
 
-  <section class="board-card">
-    <div class="board-frame">
-      <div id="board" class="board" aria-label="ក្តារអុកខ្មែរ 8x8"></div>
-    </div>
-    <div class="hint-row">
-      <span>• ជ្រើសកូន → ជ្រើសក្រឡា</span>
-      <span id="turnLabel">វេន ភាគីស</span>
-    </div>
-  </section>
+  <main class="game-card">
+    <div class="board-title">អុកខ្មែរ</div>
+    <div id="board" class="board" aria-label="ក្តារអុកខ្មែរ"></div>
+    <div class="hint">• ដាក់កូន → ដើរកូន</div>
+  </main>
 
   <section class="bottom-player">
-    <div class="avatar bottom-avatar">●</div>
-    <div class="bottom-clocks">
-      <div id="whiteClock">01:56</div>
-      <div id="blackClock">29:56</div>
-      <small>P326826</small>
-    </div>
-    <div class="eye">◉</div>
+    <div class="avatar small">●<span>●</span></div>
+    <div class="bottom-clock">02:52</div>
+    <div class="bottom-clock">03:00</div>
+    <b>P326826</b>
   </section>
 
-  <div class="bottom-actions">
-    <button id="menuBtn">☷</button>
-    <button id="resetBtn">↻</button>
-    <button id="helpBtn">?</button>
-  </div>
-
-  <div id="status" class="status">ជ្រើសកូនមួយដើម្បីដើរ</div>
-</main>
-<script src="ouk.js"></script>
+  <nav class="actions">
+    <button>☷</button><button id="reset">↻</button><button>◉</button><button>?</button>
+  </nav>
+</div>
+<script src="game.js"></script>
 </body>
 </html>
