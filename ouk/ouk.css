@@ -23,9 +23,8 @@ button{font:inherit}
 .rulebar small{color:#bca17e}
 .board-wrap{margin-top:10px;padding:12px;background:#6b3618;border:4px solid #a56a34;border-radius:22px;box-shadow:0 8px 20px #0008}
 .board-wrap h2{text-align:center;margin:0 0 10px;font-size:20px;color:#ffe0a0}
-.board{width:100%;aspect-ratio:1 / 1;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));border:3px solid #4b2814;overflow:hidden;border-radius:8px;background:#8b5129}
-.sq{position:relative;width:100%;height:100%;min-width:0;min-height:0;border:0;padding:0;margin:0;display:grid;place-items:center;cursor:pointer}
-.sq.light{background:#e6c78b}.sq.dark{background:#8c4f27}
+.board{width:100%;aspect-ratio:1 / 1;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);border:4px solid #5a3018;overflow:hidden;border-radius:9px;background:#b97b3e;box-shadow:inset 0 0 0 2px #d49a55,0 5px 14px #0007}
+.sq{position:relative;width:100%;height:100%;min-width:0;min-height:0;border:0;border-right:1px solid rgba(70,35,15,.38);border-bottom:1px solid rgba(70,35,15,.38);padding:0;margin:0;display:grid;place-items:center;cursor:pointer;background:linear-gradient(90deg,rgba(255,255,255,.10),transparent 18%,rgba(83,39,15,.08) 58%,rgba(255,255,255,.05));overflow:hidden}.sq:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(83deg,transparent 0 34px,rgba(255,240,200,.045) 35px 37px,transparent 38px 70px);pointer-events:none}.sq.light,.sq.dark{background-color:#b97a3c}
 .sq.last{filter:brightness(1.12)}.sq.selected{outline:3px solid #f2c75f;outline-offset:-3px;z-index:2}
 .sq.target:after{content:"";width:18%;height:18%;border-radius:50%;background:#d8a23d;opacity:.9;position:absolute}
 .sq.capture:after{content:"";position:absolute;inset:8%;border:3px solid #e4a93f;border-radius:50%}
@@ -38,3 +37,11 @@ button{font:inherit}
 .history-panel h3{margin:0 0 8px;color:#e8bf78;font-size:15px}.history-panel #history{display:grid;gap:4px;color:#cbb08a;font-size:12px;max-height:130px;overflow:auto}
 .note{text-align:center;color:#9f8666;font-size:11px;margin:14px 0 0}
 @media(max-width:430px){.ouk-app{padding:8px 8px 28px}.players{padding-top:13px}.player b{font-size:17px}.avatar{width:48px;height:48px;font-size:31px}.player{grid-template-columns:48px 1fr}.player.black{grid-template-columns:1fr 48px}.clock strong{font-size:28px}.board-wrap{padding:8px;border-width:3px}.piece{font-size:clamp(24px,7.2vw,42px)}}
+/* Khmer 2D piece system */
+.piece{width:82%;height:82%;display:grid;place-items:center;z-index:1;pointer-events:none}
+.kh-piece-svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 1px rgba(0,0,0,.28))}
+.sq{overflow:hidden}
+
+/* Reference-style wooden board + physical-feeling 2D pieces */
+.kh-piece-svg{transform:translateZ(0);transition:filter .15s ease,transform .15s ease}.sq.selected .kh-piece-svg{transform:translateY(-5px) scale(1.06);filter:drop-shadow(0 8px 5px rgba(0,0,0,.42))}.sq.capture .kh-piece-svg{filter:drop-shadow(0 0 5px rgba(255,190,70,.8))}.sq.target:after{width:12%;height:12%;background:#e9c56d;box-shadow:0 1px 2px #0006}.sq.capture:after{border-color:#ef6b4a;background:rgba(190,60,40,.08)}
+.move-piece{position:fixed;z-index:9999;pointer-events:none;will-change:transform;filter:drop-shadow(0 10px 7px rgba(0,0,0,.45))}.move-piece svg{width:100%;height:100%;display:block}.move-land{animation:landPiece .16s ease-out}@keyframes landPiece{0%{transform:scale(1.08) translateY(-5px)}70%{transform:scale(.96) translateY(2px)}100%{transform:scale(1) translateY(0)}}
