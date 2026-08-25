@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="km">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>អុកខ្មែរ • Ouk Chaktrang</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <button class="round-btn" id="helpBtn">?</button>
+    <div class="title"><h1>អុកខ្មែរ</h1><span>OUK CHAKTRANG</span></div>
+    <button class="round-btn" id="resetBtn">↻</button>
+  </header>
+
+  <section class="players">
+    <div class="player black">
+      <div class="avatar black-avatar">♟</div>
+      <div class="pinfo"><b>ភាគីខ្មៅ</b><small>Black</small></div>
+      <strong id="blackClock">30:00</strong>
+    </div>
+    <div class="turn-label" id="turnLabel">វេន ភាគីស</div>
+    <div class="player white">
+      <div class="avatar white-avatar">♔</div>
+      <div class="pinfo"><b>ភាគីស</b><small>White</small></div>
+      <strong id="whiteClock">30:00</strong>
+    </div>
+  </section>
+
+  <section class="game-card">
+    <div class="status" id="status">ចុចកូនអុក → ចុចក្រឡាដែលចង់ដើរ</div>
+    <div class="board-wrap">
+      <div id="board" class="board" aria-label="Ouk board"></div>
+    </div>
+    <div class="legend">
+      <span><i class="dot move"></i> ដំណើរដែលអាចដើរ</span>
+      <span><i class="dot capture"></i> អាចចាប់</span>
+      <span><i class="dot check"></i> អុក</span>
+    </div>
+  </section>
+
+  <button class="new-game" id="newGameBtn">↻ ចាប់ផ្តើមការប្រកួតថ្មី</button>
+</main>
+
+<div class="modal" id="helpModal">
+  <div class="modal-box">
+    <button class="close" id="closeHelp">×</button>
+    <h2>ក្បួនអុកខ្មែរ</h2>
+    <p>ត្រីដើរទៅមុខ ១ ក្រឡា និងចាប់តាមអង្កត់ទ្រូង។ ពេលទៅដល់ជួរទី ៦ វាអាចបកជានាង។</p>
+    <p>សេះដើរជារាង L, ទូកដើរត្រង់, នាងដើរអង្កត់ទ្រូង ១ ក្រឡា, គូលដើរ ១ អង្កត់ទ្រូង ឬទៅមុខ ១ ក្រឡា និងស្តេចដើរ ១ ក្រឡា។</p>
+    <p class="muted">កំណែនេះផ្តោតលើ UI និងចលនាកូនអុក។</p>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
