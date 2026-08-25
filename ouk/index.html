@@ -2,36 +2,52 @@
 <html lang="km">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>អុកខ្មែរ • Ouk Chatrang</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>អុកខ្មែរ • Khmer Ouk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="ouk.css">
 </head>
 <body>
-<main class="ouk-app">
-<header>
-  <button id="backBtn" aria-label="ត្រឡប់">‹</button>
-  <div><b>អុកខ្មែរ</b><small>OUK CHATRANG</small></div>
-  <button id="helpBtn" aria-label="ច្បាប់">?</button>
-</header>
-<section class="players">
-  <div class="player"><div class="avatar white">♔</div><div><b>អ្នក</b><small>ភាគីស</small></div></div>
-  <strong>VS</strong>
-  <div class="player black"><div><b>គូប្រកួត</b><small>ភាគីខ្មៅ</small></div><div class="avatar black">♚</div></div>
-</section>
-<section class="clocks">
-  <div class="clock active">⚪ ភាគីស<strong id="whiteClock">03:00</strong></div>
-  <div class="clock">⚫ ភាគីខ្មៅ<strong id="blackClock">03:00</strong></div>
-</section>
-<div class="rulebar"><span id="turnLabel">វេន ភាគីស</span><small>3:00 + 2s</small></div>
-<section class="board-wrap">
-  <h2>ក្តារអុកខ្មែរ</h2>
-  <div id="board" class="board" aria-label="ក្តារអុក 8x8"></div>
-  <div class="legend"><span>♔ ស្តេច</span><span>♕ នាង</span><span>♗ គូល</span><span>♘ សេះ</span><span>♖ ទូក</span><span>♙ ត្រី</span></div>
-</section>
-<div id="status" class="status">ជ្រើសកូនមួយដើម្បីដើរ</div>
-<section class="controls"><button id="resetBtn">↻ ចាប់ផ្តើមថ្មី</button></section>
-<section class="history-panel"><h3>ប្រវត្តិដំណើរ</h3><div id="history"></div></section>
-<p class="note">អុកខ្មែរ • Ouk Chatrang • ក្បួនខ្មែរ • 2D ស្មើក្រឡា</p>
+<main class="game">
+  <div class="topbar">
+    <div class="wifi">⌁</div>
+    <div class="coins"><span class="coin">◉</span> <b>5200</b><small>P366385</small></div>
+    <div class="avatar top-avatar">●</div>
+  </div>
+
+  <section class="top-clock-row">
+    <div class="turn-dot white-dot"></div>
+    <div class="top-clock" id="whiteClockTop">29:55</div>
+    <div class="top-clock" id="blackClockTop">--</div>
+  </section>
+
+  <section class="board-card">
+    <div class="board-frame">
+      <div id="board" class="board" aria-label="ក្តារអុកខ្មែរ 8x8"></div>
+    </div>
+    <div class="hint-row">
+      <span>• ជ្រើសកូន → ជ្រើសក្រឡា</span>
+      <span id="turnLabel">វេន ភាគីស</span>
+    </div>
+  </section>
+
+  <section class="bottom-player">
+    <div class="avatar bottom-avatar">●</div>
+    <div class="bottom-clocks">
+      <div id="whiteClock">01:56</div>
+      <div id="blackClock">29:56</div>
+      <small>P326826</small>
+    </div>
+    <div class="eye">◉</div>
+  </section>
+
+  <div class="bottom-actions">
+    <button id="menuBtn">☷</button>
+    <button id="resetBtn">↻</button>
+    <button id="helpBtn">?</button>
+  </div>
+
+  <div id="status" class="status">ជ្រើសកូនមួយដើម្បីដើរ</div>
 </main>
 <script src="ouk.js"></script>
 </body>
