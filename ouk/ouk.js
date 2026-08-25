@@ -17,19 +17,19 @@ const same=(a,b)=>a&&b&&a.r===b.r&&a.c===b.c, pos=(r,c)=>String.fromCharCode(97+
 
 // 2D Khmer-inspired vector pieces. No external fonts/assets required.
 function pieceSVG(p){
- const side=color(p), dark=side==='black', main=dark?'#29231e':'#f8efd9', edge=dark?'#d49a52':'#6a3d20', accent=dark?'#a86a32':'#c48a43';
+ const side=color(p), black=side==='black', fill=black?'#151515':'#f4f0e8', stroke=black?'#dedede':'#2f2a26';
+ const hi=black?'#5e5e5e':'#ffffff', shade=black?'#070707':'#cfc7bb';
  const t=p.toUpperCase();
  let body='';
- if(t==='K') body=`<path d="M50 7l5 8h8l-4 7h-18l-4-7h8z"/><path d="M24 27h52l-5 9H29zM29 38h42l-4 30H33z"/><path d="M20 70h60v9H20z"/><path d="M35 46h30M32 58h36" stroke="${accent}" stroke-width="3" fill="none"/>`;
- if(t==='Q') body=`<path d="M23 28h54l-7 9H30z"/><path d="M31 38h38l-5 30H36z"/><path d="M22 70h56v9H22z"/><path d="M31 27l5-14 9 10 5-16 5 16 9-10 5 14" fill="none" stroke="${accent}" stroke-width="4" stroke-linejoin="round"/>`;
- if(t==='B') body=`<path d="M50 9l12 15-5 7H43l-5-7z"/><path d="M35 31h30l7 11H28z"/><path d="M34 43h32l5 25H29z"/><path d="M20 70h60v9H20z"/><path d="M50 12v15" stroke="${accent}" stroke-width="3"/>`;
- if(t==='N') body=`<path d="M30 69c-2-17 1-29 12-36l-5-13 10-9 13 9 10 1-4 9-9 2c10 7 15 19 11 37z"/><path d="M48 20l7 6-9 4" fill="none" stroke="${accent}" stroke-width="3"/><circle cx="58" cy="24" r="2.5" fill="${accent}"/><path d="M25 70h50v9H25z"/>`;
- if(t==='R') body=`<path d="M26 14h48v11l-6 6H32l-6-6z"/><path d="M32 32h36l-5 36H37z"/><path d="M20 70h60v9H20z"/><path d="M34 39h32M32 50h36M31 61h38" stroke="${accent}" stroke-width="3"/>`;
- if(t==='P') body=`<path d="M50 12c-12 0-19 8-19 18 0 7 4 12 10 15l-9 9 18 13 18-13-9-9c6-3 10-8 10-15 0-10-7-18-19-18z"/><path d="M37 55h26M30 70h40" stroke="${accent}" stroke-width="3"/>`;
- if(t==='T') body=`<path d="M50 18c-10 4-18 12-16 21 2 7 9 10 17 10 8 0 15-3 17-10 2-9-6-17-18-21z"/><path d="M34 50l-15 9 16 4 7 10h16l7-10 16-4-15-9"/><path d="M31 74h38" stroke="${accent}" stroke-width="4"/>`;
- return `<svg class="kh-piece-svg ${dark?'black':'white'}" viewBox="0 0 100 90" aria-label="${INFO[t]}"><g fill="${main}" stroke="${edge}" stroke-width="2.5" stroke-linejoin="round">${body}</g></svg>`;
+ if(t==='K') body=`<g><path d="M46 7h8v9h8v7h-8v5h13l5 8H28l5-8h13v-5h-8v-7h8z"/><path d="M30 36h40l-4 28H34z"/><path d="M23 64h54v12H23z"/><path d="M35 45h30M33 56h34" fill="none" stroke="${hi}" stroke-width="2" opacity=".45"/></g>`;
+ if(t==='Q') body=`<g><path d="M25 24l6-13 10 10 9-15 9 15 10-10 6 13-7 10H32z"/><path d="M33 34h34l-4 29H37z"/><path d="M22 63h56v13H22z"/><path d="M34 43h32M32 54h36" fill="none" stroke="${hi}" stroke-width="2" opacity=".45"/></g>`;
+ if(t==='B') body=`<g><path d="M50 8c-6 7-11 12-11 18 0 5 4 8 11 10 7-2 11-5 11-10 0-6-5-11-11-18z"/><path d="M34 34h32l7 10H27z"/><path d="M35 44h30l5 19H30z"/><path d="M21 63h58v13H21z"/><path d="M45 13l-5 12 10 7 10-7-5-12" fill="none" stroke="${hi}" stroke-width="2" opacity=".5"/></g>`;
+ if(t==='N') body=`<g><path d="M31 63c-3-14 0-25 8-33l-5-12 12-10 14 8 12 1-4 10-12 3c9 6 14 17 11 33z"/><path d="M48 17l8 7-10 5M58 27l4 1" fill="none" stroke="${hi}" stroke-width="2.4"/><circle cx="61" cy="24" r="2" fill="${hi}"/><path d="M23 63h54v13H23z"/></g>`;
+ if(t==='R') body=`<g><path d="M25 10h50v12l-6 6H31l-6-6z"/><path d="M32 28h36l-5 35H37z"/><path d="M21 63h58v13H21z"/><path d="M34 37h32M32 49h36M31 57h38" fill="none" stroke="${hi}" stroke-width="2" opacity=".5"/></g>`;
+ if(t==='P') body=`<g><path d="M50 12c-10 0-16 7-16 16 0 7 4 12 10 15l-8 7 14 12 14-12-8-7c6-3 10-8 10-15 0-9-6-16-16-16z"/><path d="M37 50h26M29 63h42" fill="none" stroke="${hi}" stroke-width="2" opacity=".55"/></g>`;
+ if(t==='T') body=`<g><path d="M50 10c-11 0-18 8-18 17 0 8 5 13 12 16l-7 6 13 10 13-10-7-6c7-3 12-8 12-16 0-9-7-17-18-17z"/><path d="M37 50h26M29 63h42" fill="none" stroke="${hi}" stroke-width="2" opacity=".55"/></g>`;
+ return `<svg class="kh-piece-svg ${black?'black':'white'}" viewBox="0 0 100 82" role="img" aria-label="${INFO[t]}"><defs><linearGradient id="g${t}${black?'b':'w'}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${fill}"/><stop offset=".72" stop-color="${fill}"/><stop offset="1" stop-color="${shade}"/></linearGradient></defs><g fill="url(#g${t}${black?'b':'w'})" stroke="${stroke}" stroke-width="2.2" stroke-linejoin="round">${body}</g></svg>`;
 }
-
 function render(){
  boardEl.innerHTML='';
  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
