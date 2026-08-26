@@ -25,5 +25,3 @@ body{background:radial-gradient(circle at 20% 5%,rgba(255,255,255,.12),transpare
 
 .controls{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:stretch}.controls .new-game{margin-top:17px}.bot-btn{margin-top:17px;padding:0 16px;border:1px solid #c07f3d;border-radius:18px;background:linear-gradient(#70411f,#4b2714);color:#ffeecf;font-size:14px;font-weight:900;box-shadow:0 6px 15px #0005}.bot-btn:active{transform:translateY(1px)}
 @media(max-width:420px){.controls{grid-template-columns:1fr}.bot-btn{margin-top:0;padding:13px;font-size:16px}}
-
-.count-bar{display:none;grid-template-columns:1fr auto auto;gap:7px;align-items:center;margin:6px 0 9px;padding:8px 9px;border:1px solid #9f6b36;border-radius:14px;background:rgba(31,16,8,.72);color:#f5d58d;font-size:12px;font-weight:900}.count-bar.show{display:grid}.count-bar button{border:1px solid #9f6b36;border-radius:10px;background:#3e2112;color:#ffe7bd;padding:7px 8px;font-weight:900;font-size:11px}.count-bar button:disabled{opacity:.45}.count-bar button:active{transform:translateY(1px)}@media(max-width:420px){.count-bar{grid-template-columns:1fr 1fr}.count-bar div{grid-column:1/-1;text-align:center}}
