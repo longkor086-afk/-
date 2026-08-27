@@ -263,11 +263,7 @@ function addStep(out,r,c,p,allowKingTarget=false){
   if(!inb(r,c)) return;
   const t=board[r][c];
   if(!t) out.push([r,c]);
-  else if(t.color!==p.color){
-    // In normal chess/Ouk, the king is never captured; the game ends
-    // at checkmate. Keep king squares out of legal destinations.
-    if(t.type!=="king" || allowKingTarget) out.push([r,c]);
-  }
+  else if(t.color!==p.color) out.push([r,c]);
 }
 
 function rayMoves(r,c,dirs,color){
@@ -669,6 +665,19 @@ function move(r,c,rr,cc,fromAI=false){
   updateKingJumpRights();
 
   const moverColor=turn;
+
+  // Direct king capture is the terminal winning action in this build.
+  // This fixes the bug where the king square was filtered out by legal().
+  if(captured?.type==="king"){
+    selected=null;
+    botThinking=false;
+    render();
+    const st=document.getElementById("status");
+    if(st) st.textContent=`🏆 ${moverColor==="white"?"ភាគីស":"ភាគីខ្មៅ"} ឈ្នះ — ស្តេចត្រូវបានស៊ី`;
+    setTimeout(()=>showResult(moverColor,"ស្តេចគូប្រកួតត្រូវបានស៊ី — ឈ្នះហើយ!"),120);
+    return true;
+  }
+
   turn=turn==="white" ? "black" : "white";
   selected=null;
   botThinking=false;
