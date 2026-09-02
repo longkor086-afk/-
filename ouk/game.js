@@ -40,7 +40,7 @@ const IMG = {
   }
 };
 
-const BACK_WHITE = ["rook","knight","bishop","king","queen","bishop","knight","rook"];
+const BACK_WHITE = ["rook","knight","bishop","queen","king","bishop","knight","rook"];
 const BACK_BLACK = ["rook","knight","bishop","king","queen","bishop","knight","rook"];
 
 let board = [];
