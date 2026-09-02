@@ -40,7 +40,9 @@ const IMG = {
   }
 };
 
-const BACK_WHITE = ["rook","knight","bishop","king","queen","bishop","knight","rook"];
+// Reference-board order: Rook, Knight, Koul, Neang, King, Koul, Knight, Rook
+// The same left-to-right visual order is used for both rows, matching the supplied reference image.
+const BACK_WHITE = ["rook","knight","bishop","queen","king","bishop","knight","rook"];
 const BACK_BLACK = ["rook","knight","bishop","queen","king","bishop","knight","rook"];
 
 let board = [];
@@ -240,11 +242,10 @@ function renderCounting(){
 function initial(){
   board=Array.from({length:8},()=>Array(8).fill(null));
 
-  // Correct Cambodian Ouk starting arrangement:
-  // Black: R N B Q K B N R
+  // Starting arrangement matched to the supplied reference image:
+  // Both visible rows: R N B Q K B N R
   // Black Trey: rank 3
   // White Trey: rank 6
-  // White: R N B K Q B N R
   for(let c=0;c<8;c++){
     board[0][c]={color:"black",type:BACK_BLACK[c],moved:false,kingJumpLost:false};
     board[2][c]={color:"black",type:"pawn",moved:false,promoted:false};
